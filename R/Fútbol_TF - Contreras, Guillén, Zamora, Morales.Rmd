@@ -2,7 +2,13 @@
 title: "Por definir xd"
 author: "Contreras Valeria, Guillén David, Zamora Samuel, Morales Andrés"
 date: "Junio del 2024"
-output: html_document
+output: 
+  pdf_document:
+    toc: TRUE
+    toc_depth: 2
+fontside: 11pt
+lang: Es-es
+
 ---
 
 ```{r setup, include=FALSE}
