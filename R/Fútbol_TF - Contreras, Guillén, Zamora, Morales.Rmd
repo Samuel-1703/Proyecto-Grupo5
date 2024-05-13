@@ -2,10 +2,30 @@
 title: "Por definir xd"
 author: "Contreras Valeria, Guillén David, Zamora Samuel, Morales Andrés"
 date: "Junio del 2024"
-output: html_document
+output: 
+  pdf_document:
+    toc: TRUE
+    toc_depth: 2
+fontside: 11pt
+lang: Es-es
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r Bliblioteca, include=FALSE}
+#Paquetes a utilizar
+library(tinytex)
 ```
 
+\pagebreak
+# Planteamiento del Problema
+
+ Tenemos 2 variables cuantitativas: goles hechos por el quipo local, goles hechos por el equipo visitante.  
+ A esto se le puede dar otro enfoque si nos concentramos en un equipo en específico y dándole seguimiento, se puede ver como goles que han metido y goles que le han hecho, partido a partido en la liga que han participado.
+
+ Un estudio curioso es medir su rendimiento en las ligas con base en sus goles. Pero no solo limitándonos a los goles. Se sabe que para un equipo hay muchísimas razones por las cuales su rendimiento no es el más óptimo, queremos adentrarnos algunos. Encontramos que: 
+  
+* Los equipos X de la liga XA y Y de la liga YB nos llamó la atención por su cambio de entrenador en las temporadas X0 y Y0 respectivamente.
+
+* El equipo Z de la liga ZC a partir de la temporada Z0 tuvo una inyección de dinero importante, por lo tanto, ficharon nuevos jugadores.
+  
+ Evaluaremos el rendimiento por: el cambio de entrenador; Antes y después de la inyección de dinero; juegos como local y visitante por separados.  
+ Estas serán las variables a consideración del estudio de la siguiente investigación.
