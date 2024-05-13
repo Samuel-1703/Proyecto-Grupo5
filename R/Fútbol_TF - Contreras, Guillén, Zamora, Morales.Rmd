@@ -1,0 +1,11 @@
+---
+title: "Por definir xd"
+author: "Contreras Valeria, Guillén David, Zamora Samuel, Morales Andrés"
+date: "Junio del 2024"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
