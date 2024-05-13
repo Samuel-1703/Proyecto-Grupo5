@@ -11,7 +11,17 @@ lang: Es-es
 
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r Bliblioteca, include=FALSE}
+#Paquetes a utilizar
+library(tinytex)
 ```
+
+\pagebreak
+# Planteamiento del Problema
+
+  Tenemos 2 variables cunatitativas: goles hechos por el quipo local, goles hechos por el equipo visitante. 
+    A esto se le puede dar otro enfoque si nos cocentramos en un equipo en especifico y dandole seguimiento. Se puede ver como goles que han metido y goles que le han hecho, partido a partido en la ligas que han participado.
+
+  Un estudio curioso es medir su rendimiento en las ligas en base a sus goles. Pero no solo limitandonos a los goles... Se sabe que para un equipo hay muchisimas razones por las cuales su rendimiento no es el mas optimo, queremos adentrarnos algunos. Investigando, los equipos X de la liga XA y Y de la liga YB nos llamó la atención por su cambio de entrenador en las temporadas X0 y Y0 respectivamente.
+  El rendimiento por el cambio de entrenador, juegos como local y visitante serán las variables a consideración del estudio de la siguiente investigación.
 
