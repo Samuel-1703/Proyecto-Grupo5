@@ -13,6 +13,13 @@ lang: Es-es
 ```{r Bliblioteca, include=FALSE}
 #Paquetes a utilizar
 library(tinytex)
+library(DBI)
+library(RSQLite)
+
+#BBDD
+futbol <- dbConnect(SQLite(), dbname = "Fútbol Europeo BBDD.sqlite")
+tablas <- dbListTables(futbol, "Partidos")
+print(tablas)
 ```
 
 \pagebreak
@@ -29,3 +36,15 @@ library(tinytex)
   
  Evaluaremos el rendimiento por: el cambio de entrenador; Antes y después de la inyección de dinero; juegos como local y visitante por separados.  
  Estas serán las variables a consideración del estudio de la siguiente investigación.
+
+# Cambio de Entrenador
+
+
+
+# Bibliografía
+
+1) https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
+
+2) https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2017
+
+3) https://www.transfermarkt.es/laliga/trainereffekt/wettbewerb/ES1/plus/?saison_id=2018&spiele=15
