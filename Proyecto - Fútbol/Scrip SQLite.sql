@@ -1,3 +1,7 @@
+/*Estableciendo conexión entre tablas*/
+SELECT * FROM Divisiones 
+	JOIN Partidos on Cod_Divisiones=Cod_Division;
+
 /*Comandos para cambiar los valores*/
 
 UPDATE Partidos SET Ganador='V' WHERE Ganador='A';
@@ -31,3 +35,10 @@ UPDATE Divisiones SET Pais='Países Bajos' WHERE Pais='Netherlands';
 UPDATE Divisiones SET Pais='Escocia' WHERE Pais='Scotland';
 UPDATE Divisiones SET Pais='España' WHERE Pais='Spain';
 UPDATE Divisiones SET Pais='Turquía' WHERE Pais='Turkey';
+
+
+/*Creando vista de los partidos de 2017 y 2018 de la liga (1er objetivo en R)*/
+CREATE VIEW laliga_2017_2018 AS
+SELECT Cod_Division, Team_Local, Goles_Local, Team_Visitante, Goles_Visitante, Ganador, Temporada 
+	FROM Partidos 
+	WHERE Cod_Division='SP1' AND Temporada IN ('2017-18', '2018-19');
