@@ -1,0 +1,60 @@
+---
+title: "Por definir xd"
+author: "Contreras Valeria, Guillén David, Zamora Samuel, Morales Andrés"
+date: "Junio del 2024"
+output: 
+  pdf_document:
+    toc: TRUE
+    toc_depth: 2
+fontside: 11pt
+lang: Es-es
+---
+
+```{r Bliblioteca, include=FALSE}
+#Paquetes a utilizar
+library(tinytex)
+library(DBI)
+library(RSQLite)
+
+#BBDD
+futbol <- dbConnect(SQLite(), dbname = "Fútbol Europeo BBDD.sqlite")
+print(futbol)
+
+#Tablas de la BBDD
+vista_1 <- "SELECT * FROM Divisiones"
+Divisiones <- dbGetQuery(futbol, vista_1)
+vista_2 <- "SELECT * FROM Partidos"
+Partidos <- dbGetQuery(futbol, vista_2)
+```
+
+\pagebreak
+# Planteamiento del Problema
+
+El futbol es un deporte de contacto y en equipo, jugado entre dos conjuntos de once jugadores cada uno. Estos equipos tienen la misión de trasladar un balón utilizando cualquier parte del cuerpo exceptuando brazos y manos con la finalidad de encajarlo en la portería o arco del conjunto rival, acción que se denomina gol y hará ganar el partido al equipo que al cabo de 90 minutos logre hacer mas anotaciones. 
+
+Pueden existir partidos en los que un equipo sea tácticamente muy superior al rival, o que cuente con jugadores de mejor calidad, y esto al final del partido puede influir en que dominen en estadísticas como mayor posesión de balón, mayor precisión en los pases, mas disparos al arco rival, mayor cantidad de tiros libres y todo lo que pueda favorecer a un equipo para demostrar que es superior, pero lo único que sentencia un partido son los goles, y ganar como en cualquier deporte es la única manera de avanzar en un torneo o competición.
+
+Ya que marcar goles para cualquier equipo es una necesidad, resulta interesante develar que factores pueden influir en los conjuntos para que aumente o disminuya su capacidad goleadora.
+
+Se tiene en estudio una base de datos relacionados a algunas ligas del futbol europeo, entre ellas las 5 mas importantes del mundo según la plataforma Global Football Rankings, que utiliza análisis de datos para evaluar y clasificar las ligas de fútbol en todo el mundo, esta plataforma concluye que en este top se encuentran la Premier League (Inglaterra), La Bundesliga (Alemania), LaLiga (España), Serie A (Italia) y Ligue 1 (Francia). La base de datos cuenta con variables interesantes como los goles anotados por los equipos de cada liga tanto de local como de visitante, a lo largo de las temporadas que transcurrieron desde el año 2006 hasta el año 2021, y partiendo de dicha información surgen las interrogantes que se presentan a continuación. 
+
+Interrogantes/Objetivos
+
+1) ¿Los equipos tienden a anotar más goles cuando juegan en sus estadios locales?
+
+2) ¿Influyeron los partidos sin publico durante la pandemia en la capacidad de anotar goles por parte de los equipos que jugaron de visitante?
+
+3) ¿Tuvo influencia la implementación del Video Assistant Referee (VAR), en la cantidad de goles que ofrecían las respectivas ligas?
+
+4) ¿Puede predecirse el marcador de un partido, basado en la cantidad de goles que ha anotado uno de los equipos en cuestión?
+
+
+
+
+# Bibliografía
+
+1) https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
+
+2) https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2017
+
+3) https://www.transfermarkt.es/laliga/trainereffekt/wettbewerb/ES1/plus/?saison_id=2018&spiele=15
