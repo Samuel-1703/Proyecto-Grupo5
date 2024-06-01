@@ -1,3 +1,7 @@
+/*Estableciendo conexión entre tablas*/
+SELECT * FROM Divisiones 
+	JOIN Partidos on Cod_Divisiones=Cod_Division;
+
 /*Comandos para cambiar los valores*/
 
 UPDATE Partidos SET Ganador='V' WHERE Ganador='A';
