@@ -51,7 +51,19 @@ SELECT Cod_Divisiones, Nombre_Div, count (Cod_Division) AS Cantidad_Partidos, Pa
 
 /* 2da Query: Indicar por temporada las estadísticas descriptivas de los goles
 anotados de local y de visitante por país */
-
+CREATE VIEW "Query_2" AS 
+SELECT
+    Pais AS Pais,
+    Temporada AS Temporada,
+    round (AVG(Goles_Local),2) AS Promedio_local,
+    round (AVG(Goles_Visitante),2) AS Promedio_visitante,
+    MIN(Goles_Local) AS Min_local,
+    MAX(Goles_Local) AS Max_local,
+    MIN(Goles_Visitante) AS Min_visitante,
+    MAX(Goles_Visitante) AS Max_visitante
+FROM Partidos 
+JOIN Divisiones on Cod_Division = Cod_Divisiones
+GROUP BY pais, temporada;
 
 /* 3era Query: Se desea saber temporada a temporada cuál fue el equipo de la
 liga Turca que más goles totales anotó */
