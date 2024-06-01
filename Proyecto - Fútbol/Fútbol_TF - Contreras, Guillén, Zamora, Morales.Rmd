@@ -21,37 +21,10 @@ futbol <- dbConnect(SQLite(), dbname = "Fútbol Europeo BBDD.sqlite")
 print(futbol)
 
 #Tablas de la BBDD
-#vista_1 <- "SELECT * FROM Divisiones"
-#Divisiones <- dbGetQuery(futbol, vista_1)
-#vista_2 <- "SELECT * FROM Partidos"
-#Partidos <- dbGetQuery(futbol, vista_2)
-
-#Variables
-goles_athletic_local <- dbGetQuery(futbol, 
-"SELECT Fecha, Team_Local, Goles_Local, Goles_Visitante, Team_Visitante, Ganador, Temporada 
-  FROM Partidos 
-	WHERE Cod_Division='SP1' AND Team_Local='Ath Bilbao'")
-goles_athletic_visitante <- dbGetQuery(futbol, 
-"SELECT Fecha, Team_Local, Goles_Local, Goles_Visitante, Team_Visitante, Ganador, Temporada 
-  FROM Partidos 
-	WHERE Cod_Division='SP1' AND Team_Visitante='Ath Bilbao'")
-
-l_1718 <- goles_athletic_local[c(39:76), c("Goles_Local", "Goles_Visitante", "Ganador", "Temporada")]
-v_1717 <- goles_athletic_visitante[c(39:76), c("Goles_Local", "Goles_Visitante", "Ganador", "Temporada")]
-#g1718l <- goles_athletic_local[c(39:76), c("Goles_Local", "Goles_Visitante", "Ganador", "Temporada")]
-#g1718v <- goles_athletic_visitante[c(39:76), c("Goles_Local", "Goles_Visitante", "Ganador", "Temporada")]
-Lugar <- c("Local", "Local", "Local", "Visitante", "Visitante", "Visitante")
-Ganador <- c("L", "V", "E", "L", "V", "E")
-Frecuencia <- c(15, 7, 16, 19, 8, 11)
-Temporada <- c("2018-19", "2018-19", "2018-19", "2017-18", "2017-18", "2017-18")
-atletic_1718 <- data.frame(Lugar, Ganador, Frecuencia, Temporada)
-
-#g17l <- goles_athletic_local[c(58:76), c("Goles_Local", "Goles_Visitante", "Ganador", "Temporada")]
-#g17v <- goles_athletic_visitante[c(58:76), c("Goles_Local", "Goles_Visitante", "Ganador", "Temporada")]
-#g18l <- goles_athletic_local[c(39:57), c("Goles_Local", "Goles_Visitante", "Ganador", "Temporada")]
-#g18v <- goles_athletic_visitante[c(39:57), c("Goles_Local", "Goles_Visitante", "Ganador", "Temporada")]
-
-#"laliga_17-18" <- dbGetQuery(futbol, "SELECT * FROM laliga_2017_2018")
+vista_1 <- "SELECT * FROM Divisiones"
+Divisiones <- dbGetQuery(futbol, vista_1)
+vista_2 <- "SELECT * FROM Partidos"
+Partidos <- dbGetQuery(futbol, vista_2)
 ```
 
 \pagebreak
@@ -71,9 +44,6 @@ atletic_1718 <- data.frame(Lugar, Ganador, Frecuencia, Temporada)
 
 # Cambio de Entrenador
 
-```{r}
-ggplot()
-```
 
 
 # Bibliografía
