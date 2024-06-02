@@ -15,16 +15,40 @@ lang: Es-es
 library(tinytex)
 library(DBI)
 library(RSQLite)
+library(kableExtra)
 
 #BBDD
 futbol <- dbConnect(SQLite(), dbname = "Fútbol Europeo BBDD.sqlite")
 print(futbol)
 
+#Funciones
+moda<- function(x) {
+   return(as.numeric(names(which.max(table(x)))))
+}
+
+
 #Tablas de la BBDD
-vista_1 <- "SELECT * FROM Divisiones"
-Divisiones <- dbGetQuery(futbol, vista_1)
-vista_2 <- "SELECT * FROM Partidos"
-Partidos <- dbGetQuery(futbol, vista_2)
+Divisiones <- dbGetQuery(futbol, "SELECT * FROM Divisiones")
+Partidos <- dbGetQuery(futbol, "SELECT * FROM Partidos")
+remove(Divisiones, Partidos)
+
+#variables
+Resumen1=list("N de Datos"=length, Min=min, Max=max, Moda=moda, Media=mean, Mediana=median, Desviación=sd)
+
+v_ath_local <- dbGetQuery(futbol, 
+"SELECT Team_Local, Ganador, count(Ganador) AS Frecuencia, Temporada 
+  FROM Partidos 
+	WHERE Cod_Division='SP1' AND Team_Local='Ath Bilbao'
+	GROUP BY Ganador")
+v_ath_visitante <- dbGetQuery(futbol, 
+"SELECT Team_Visitante, Ganador, count(Ganador) AS Frecuencia, Temporada 
+  FROM Partidos 
+	WHERE Cod_Division='SP1' AND Team_Visitante='Ath Bilbao'
+	GROUP BY Ganador")
+
+#Para ultimo objetivo
+#goles_athletic_local <- dbGetQuery(futbol, "SELECT * FROM laliga_2017_2018
+#	WHERE Team_Local='Ath Bilbao'")
 ```
 
 \pagebreak
@@ -49,6 +73,15 @@ Partidos <- dbGetQuery(futbol, vista_2)
 
 * Si seguimos a un equipo en específico ¿se puede inferir la cantidad de goles que les será anotados en contra mientras vamos conociendo los goles que anoten?
 
+# Estadística Descriptiva de la BBDD
+
+
+
+# ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
+
+ Trabajaremos con una muestra de la BBDD, el equipo Atheltic Club de Bilbao es su temporada 2017-18 y 2018-19, en estas temporadas encontramos un par de características a resaltar, veamoslas paso a paso...
+
+## Gráfico
 
 # Bibliografía
 
