@@ -35,7 +35,7 @@ UPDATE Divisiones SET Pais='Turquía' WHERE Pais='Turkey';
 
 /*Creando vista de los partidos de 2017 y 2018 de la liga (1er objetivo en R)*/
 CREATE VIEW laliga_2017_2018 AS
-SELECT Cod_Division, Team_Local, Goles_Local, Team_Visitante, Goles_Visitante, Ganador, Temporada 
+SELECT Team_Local, Goles_Local, Team_Visitante, Goles_Visitante, Ganador, Temporada 
 	FROM Partidos 
 	WHERE Cod_Division='SP1' AND Temporada IN ('2017-18', '2018-19');
 
