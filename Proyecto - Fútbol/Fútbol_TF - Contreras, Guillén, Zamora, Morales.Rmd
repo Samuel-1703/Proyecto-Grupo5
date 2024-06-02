@@ -30,20 +30,24 @@ Partidos <- dbGetQuery(futbol, vista_2)
 \pagebreak
 # Planteamiento del Problema
 
- Tenemos 2 variables cuantitativas: goles hechos por el quipo local, goles hechos por el equipo visitante.  
- A esto se le puede dar otro enfoque si nos concentramos en un equipo en específico y dándole seguimiento, se puede ver como goles que han metido y goles que le han hecho, partido a partido en la liga que han participado.
+ El fútbol es un deporte a nivel profesional alto de once jugadores por equipo, involucra la cooperación mutua del equipo y se sabe que es un deporte que conlleva el contacto. Estos equipos tienen la misión de trasladar un balón utilizando cualquier parte del cuerpo exceptuando brazos y manos con la finalidad de encajarlo dentro de la portería o arco del conjunto rival, acción que se denomina gol. El equipo con más goles durante un partido de 90 minutos ganará el encuentro.
 
- Un estudio curioso es medir su rendimiento en las ligas con base en sus goles. Pero no solo limitándonos a los goles. Se sabe que para un equipo hay muchísimas razones por las cuales su rendimiento no es el más óptimo, queremos adentrarnos algunos. Encontramos que: 
-  
-* Los equipos X de la liga XA y Y de la liga YB nos llamó la atención por su cambio de entrenador en las temporadas X0 y Y0 respectivamente.
+ Pueden existir partidos en los que un equipo sea tácticamente muy superior al rival, o que cuente con jugadores de mejor calidad. Al final del partido puede influir en que dominen en estadísticas como mayor posesión de balón, mayor precisión en los pases, más disparos al arco rival, mayor cantidad de tiros libres y todo lo que pueda favorecer a un equipo para demostrar que es superior, pero lo único que sentencia un partido son los goles, y ganar como en cualquier deporte es la única manera de avanzar en un torneo o competición.
 
-* El equipo Z de la liga ZC a partir de la temporada Z0 tuvo una inyección de dinero importante, por lo tanto, ficharon nuevos jugadores.
-  
- Evaluaremos el rendimiento por: el cambio de entrenador; Antes y después de la inyección de dinero; juegos como local y visitante por separados.  
- Estas serán las variables a consideración del estudio de la siguiente investigación.
+ Ya que marcar goles para cualquier equipo es una necesidad, resulta interesante develar qué factores pueden influir en los conjuntos para que aumente o disminuya su capacidad goleadora.
 
-# Cambio de Entrenador
+ Se tiene en estudio una base de datos relacionados a algunas ligas del fútbol europeo, entre ellas las 5 más importantes del mundo según la plataforma Global Football Rankings, que utiliza análisis de datos para evaluar y clasificar las ligas de fútbol en todo el mundo, esta plataforma concluye que en este top se encuentran la Premier League (Inglaterra), La Bundesliga (Alemania), LaLiga (España), Serie A (Italia) y Ligue 1 (Francia).  
+ La base de datos cuenta con variables como los goles anotados por los equipos de cada liga tanto de local como de visitante, a lo largo de las temporadas que transcurrieron desde el año 2006 hasta el año 2021, y partiendo de dicha información surgen las interrogantes que se presentan a continuación. 
 
+## Interrogantes/Objetivos
+
+* ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
+
+* ¿Influyeron los partidos sin público durante la pandemia en la capacidad de anotar goles por parte de los equipos que jugaron de visitante?
+
+* ¿Tuvo influencia la implementación del Video Assistant Referee (VAR), en la cantidad de goles que ofrecían las respectivas ligas?
+
+* Si seguimos a un equipo en específico ¿se puede inferir la cantidad de goles que les será anotados en contra mientras vamos conociendo los goles que anoten?
 
 
 # Bibliografía
