@@ -34,11 +34,15 @@ UPDATE Divisiones SET Pais='Turquía' WHERE Pais='Turkey';
 
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
-/*Creando vista de los partidos de Athelics de Bilbao (1er objetivo en R)*/
+/*Creando vista de los partidos del Athelics de Bilbao (1er objetivo en R)*/
 CREATE VIEW "Obj_1" AS
 SELECT Id_Partidos, Team_Visitante||'.' AS Team_Visitante, Ganador FROM Partidos 
 	WHERE Cod_Division='SP1' AND Team_Visitante='Ath Bilbao';
-	
+
+/*Creando vista de los partidos del Manchester City (1er objetivo en R)*/
+CREATE VIEW "Obj_12" AS
+SELECT Id_Partidos, Team_Visitante||'.' AS Team_Visitante, Ganador FROM Partidos 
+	WHERE Cod_Division='E0' AND Team_Visitante='Man City';
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
 /* 1era Query: Indicar los nombres y países de las 5 divisiones que tienen más
