@@ -15,40 +15,44 @@ lang: Es-es
 library(tinytex)
 library(DBI)
 library(RSQLite)
+library(tidyverse)
 library(kableExtra)
 
 #BBDD
 futbol <- dbConnect(SQLite(), dbname = "Fútbol Europeo BBDD.sqlite")
-print(futbol)
 
 #Funciones
 moda<- function(x) {
    return(as.numeric(names(which.max(table(x)))))
 }
 
-
 #Tablas de la BBDD
 Divisiones <- dbGetQuery(futbol, "SELECT * FROM Divisiones")
 Partidos <- dbGetQuery(futbol, "SELECT * FROM Partidos")
-remove(Divisiones, Partidos)
 
 #variables
-Resumen1=list("N de Datos"=length, Min=min, Max=max, Moda=moda, Media=mean, Mediana=median, Desviación=sd)
+v_ath <- dbGetQuery(futbol,
+"SELECT * FROM (SELECT Id_Partidos, Team_Local AS Equipo, Ganador
+				FROM Partidos 
+					WHERE Cod_Division='SP1' AND Team_Local='Ath Bilbao'
+				UNION
+			   SELECT * FROM Obj_1)
+	ORDER BY Ganador")
+v_ath <- v_ath %>% mutate(Lugar = case_when(Equipo == "Ath Bilbao" ~ "Local", Equipo == "Ath Bilbao." ~ "Visitante")) %>% mutate(Ganador = recode(Ganador, "E" = "Empate", "L" = "Local", "V" = "Visitante"))
 
-v_ath_local <- dbGetQuery(futbol, 
-"SELECT Team_Local, Ganador, count(Ganador) AS Frecuencia, Temporada 
-  FROM Partidos 
-	WHERE Cod_Division='SP1' AND Team_Local='Ath Bilbao'
-	GROUP BY Ganador")
-v_ath_visitante <- dbGetQuery(futbol, 
-"SELECT Team_Visitante, Ganador, count(Ganador) AS Frecuencia, Temporada 
-  FROM Partidos 
-	WHERE Cod_Division='SP1' AND Team_Visitante='Ath Bilbao'
-	GROUP BY Ganador")
+v_man <- dbGetQuery(futbol,
+"SELECT * FROM (SELECT Id_Partidos, Team_Local AS Equipo, Ganador
+				FROM Partidos 
+					WHERE Cod_Division='E0' AND Team_Local='Man City'
+				UNION
+			   SELECT * FROM Obj_12)
+	ORDER BY Ganador")
+v_man <- v_man %>% mutate(Lugar = case_when(Equipo == "Man City" ~ "Local", Equipo == "Man City." ~ "Visitante")) %>% mutate(Ganador = recode(Ganador, "E" = "Empate", "L" = "Local", "V" = "Visitante"))
 
 #Para ultimo objetivo
 #goles_athletic_local <- dbGetQuery(futbol, "SELECT * FROM laliga_2017_2018
 #	WHERE Team_Local='Ath Bilbao'")
+remove(Divisiones)
 ```
 
 \pagebreak
@@ -63,30 +67,55 @@ v_ath_visitante <- dbGetQuery(futbol,
  Se tiene en estudio una base de datos relacionados a algunas ligas del fútbol europeo, entre ellas las 5 más importantes del mundo según la plataforma Global Football Rankings, que utiliza análisis de datos para evaluar y clasificar las ligas de fútbol en todo el mundo, esta plataforma concluye que en este top se encuentran la Premier League (Inglaterra), La Bundesliga (Alemania), LaLiga (España), Serie A (Italia) y Ligue 1 (Francia).  
  La base de datos cuenta con variables como los goles anotados por los equipos de cada liga tanto de local como de visitante, a lo largo de las temporadas que transcurrieron desde el año 2006 hasta el año 2021, y partiendo de dicha información surgen las interrogantes que se presentan a continuación. 
 
+ El objetivo del presente trabajo estadístico es exponer y demostrar algunos factores determinantes que tienen influencia en la cantidad de goles y victorias que se pueden llevar un equipo partido a partido. Todo esto en base a la secuencia de partidos de las ligas y divisiones que están registradas en la BBDD.  
+ Trabajaremos con unas muestras de la BBDD la cual consta principalmente del equipo "Athletic Club" de Bilbao que juega en la primera división de “La Liga”, el campeonato nacional de España. Mientras avanzamos con el desarrollo del trabajo, también se expondrán otros equipos aleatoriamente a las pruebas del objetivo junto al principal anteriormente mencionado.
+
 ## Interrogantes/Objetivos
 
-* ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
+1) ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
 
-* ¿Influyeron los partidos sin público durante la pandemia en la capacidad de anotar goles por parte de los equipos que jugaron de visitante?
+2) ¿Influyeron los partidos sin público durante la pandemia en la capacidad de anotar goles por parte de los equipos que jugaron de visitante?
 
-* ¿Tuvo influencia la implementación del Video Assistant Referee (VAR), en la cantidad de goles que ofrecían las respectivas ligas?
+3) ¿Tuvo influencia la implementación del Video Assistant Referee (VAR), en la cantidad de goles que ofrecían las respectivas ligas?
 
-* Si seguimos a un equipo en específico ¿se puede inferir la cantidad de goles que les será anotados en contra mientras vamos conociendo los goles que anoten?
+4) ¿Puede distinguir un cambio de entrenador y/o jugadores del equipo para un dominio del marcador en su mayoría de juegos?
 
-# Estadística Descriptiva de la BBDD
+# Resumen Descriptivo de la BBDD
 
 
 
 # ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
 
- Trabajaremos con una muestra de la BBDD, el equipo Atheltic Club de Bilbao es su temporada 2017-18 y 2018-19, en estas temporadas encontramos un par de características a resaltar, veamoslas paso a paso...
+ Se procede a evaluar los resultados de todos los juegos de la BBDD donde "Athetic Club" y el "Manchester City" juegan de local y serán comparados con los resultados donde juegan de visitante. De esta manera se visualizará en que posición se ha llevado más victorias
+ 
+ También es importante mencionar que son todos sus partidos en sus ligas desde la temporada 2005-06 hasta la 2020-21.
 
-## Gráfico
+## Distribución de Frecuencias de los Resultados de los Partidos - Athetic Club Bilbao
+
+ A continuanción un histograma de frecuencias que nos indican los resultados de los partidos totales del Athletic Club.
+
+```{r}
+ggplot(v_ath, aes(x=Lugar, fill=Ganador)) + geom_bar(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Contador de Victorias en las posiciones - Athletic Club de Bilbao") + theme_bw() +  scale_fill_manual(values=c("#CE93D8", "#BA68CB", "#9C27BD")) + geom_text(aes(label=after_stat(count)), stat="count",
+                                                                        position=position_dodge(0.9),
+                                                                        vjust=-0.3, 
+                                                                        size=3.5)
+```
+
 
 # Bibliografía
 
-1) https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
+* https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
 
-2) https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2017
+* https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2017
 
-3) https://www.transfermarkt.es/laliga/trainereffekt/wettbewerb/ES1/plus/?saison_id=2018&spiele=15
+* https://www.transfermarkt.es/laliga/trainereffekt/wettbewerb/ES1/plus/?saison_id=2018&spiele=15
+
+* https://www.transfermarkt.es/laliga/trainereffekt/wettbewerb/ES1/plus/?saison_id=2017&spiele=15
+
+* https://www.transfermarkt.es/athletic-club/kader/verein/621/plus/0/galerie/0?saison_id=2018
+
+* https://www.transfermarkt.es/athletic-club/kader/verein/621/plus/0/galerie/0?saison_id=2017
+
+* https://www.transfermarkt.es/rc-celta-de-vigo/kader/verein/940/plus/0/galerie/0?saison_id=2018
+
+* https://www.transfermarkt.es/rc-celta-de-vigo/kader/verein/940/plus/0/galerie/0?saison_id=2017
