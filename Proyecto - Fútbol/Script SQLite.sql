@@ -32,13 +32,14 @@ UPDATE Divisiones SET Pais='Escocia' WHERE Pais='Scotland';
 UPDATE Divisiones SET Pais='España' WHERE Pais='Spain';
 UPDATE Divisiones SET Pais='Turquía' WHERE Pais='Turkey';
 
+-------------------------------------------------------------------------------------------------------------------------------------------------
 
-/*Creando vista de los partidos de 2017 y 2018 de la liga (1er objetivo en R)*/
-CREATE VIEW laliga_2017_2018 AS
-SELECT Team_Local, Goles_Local, Team_Visitante, Goles_Visitante, Ganador, Temporada 
-	FROM Partidos 
-	WHERE Cod_Division='SP1' AND Temporada IN ('2017-18', '2018-19');
-
+/*Creando vista de los partidos de Athelics de Bilbao (1er objetivo en R)*/
+CREATE VIEW "Obj_1" AS
+SELECT Id_Partidos, Team_Visitante||'.' AS Team_Visitante, Ganador FROM Partidos 
+	WHERE Cod_Division='SP1' AND Team_Visitante='Ath Bilbao';
+	
+-------------------------------------------------------------------------------------------------------------------------------------------------
 
 /* 1era Query: Indicar los nombres y países de las 5 divisiones que tienen más
 partidos disputados en la base de datos */
