@@ -92,15 +92,30 @@ remove(Divisiones)
 
 ## Distribución de Frecuencias de los Resultados de los Partidos - Athetic Club Bilbao
 
- A continuanción un histograma de frecuencias que nos indican los resultados de los partidos totales del Athletic Club.
+ A continuanción un histograma de frecuencias que nos indican los resultados de los partidos totales del Athletic Club en La Liga.
 
-```{r}
-ggplot(v_ath, aes(x=Lugar, fill=Ganador)) + geom_bar(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Contador de Victorias en las posiciones - Athletic Club de Bilbao") + theme_bw() +  scale_fill_manual(values=c("#CE93D8", "#BA68CB", "#9C27BD")) + geom_text(aes(label=after_stat(count)), stat="count",
+```{r Bar_frec_Athletic, echo=FALSE}
+Tabla <- v_ath %>% group_by_(Lugar, Ganador) %>% summarise(Total = n()) %>% 
+mutate(Porcentaje = round(Total/sum(Total)*100, 1))
+
+ggplot(v_ath, aes(x=Lugar, fill=Ganador)) + geom_bar(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Contador de Victorias en las posiciones - Athletic Club de Bilbao") + theme_test() + ylim(c(0,160)) + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + geom_text(aes(label=after_stat(count)), stat="count",
                                                                         position=position_dodge(0.9),
                                                                         vjust=-0.3, 
                                                                         size=3.5)
 ```
 
+## Distribución de Frecuencias de los Resultados de los Partidos - Manchester City
+
+ A continuanción un histograma de frecuencias que nos indican los resultados de los partidos totales del Manchester City en la Premier Ligue.
+
+```{r Bar_frec_Mancherster, echo=FALSE}
+ggplot(v_man, aes(x=Lugar, fill=Ganador)) + geom_bar(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Contador de Victorias en las posiciones - Manchester City") + theme_bw() +  scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + geom_text(aes(label=after_stat(count)), stat="count",
+                                                                        position=position_dodge(0.9),
+                                                                        vjust=-0.3, 
+                                                                        size=3.5)
+```
+
+## Distrubición de Densidad de los Resultados de los Partidos de los Equipos
 
 # Bibliografía
 
