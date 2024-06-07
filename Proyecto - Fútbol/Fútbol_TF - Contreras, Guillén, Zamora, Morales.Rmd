@@ -17,6 +17,7 @@ library(DBI)
 library(RSQLite)
 library(tidyverse)
 library(kableExtra)
+library(cowplot)
 
 #BBDD
 futbol <- dbConnect(SQLite(), dbname = "Fútbol Europeo BBDD.sqlite")
@@ -92,43 +93,50 @@ remove(Divisiones)
 
 ## Distribución de Frecuencias de los Resultados de los Partidos - Athetic Club Bilbao
 
- A continuanción un histograma de frecuencias que nos indican los resultados de los partidos totales del **Athletic Club** en La Liga.
+ A continuanción un histograma de frecuencias que nos indican los resultados de los partidos totales del Athletic Club en La Liga.
 
-```{r Frec_Athletic_col, echo=FALSE, warning=FALSE}
-ath_plot <- v_ath %>% group_by(Lugar, Ganador) %>% summarise(Total= n()) %>% 
-mutate(Porcentaje = round(Total/sum(Total)*100, 1))
+```{r Frec_Athletic_col, echo=FALSE, warning=FALSE, message=FALSE}
+ath_plot <- v_ath %>% group_by(Lugar, Ganador) %>% summarise(Total= n())%>% 
+mutate(Porcentaje=round(Total/sum(Total)*100, 1), Proporcion=round(Total/sum(Total), 2))
 
-ggplot(ath_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Athletic Club de Bilbao") + theme_test() + ylim(c(0,160)) + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + 
+ggplot(ath_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Athletic Club de Bilbao") + theme_test() + ylim(c(0,160)) + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + theme(plot.title=element_text(hjust = 0.5, size=11)) +
 geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
-         vjust=-0.4, 
+         vjust=-0.5, 
          color="black", 
          hjust=0.5,
          position = position_dodge(0.9), 
-         size=4.0)
-
-remove(ath_plot)
+         size=3.0)
 ```
 
 ## Distribución de Frecuencias de los Resultados de los Partidos - Manchester City
 
- A continuanción un histograma de frecuencias que nos indican los resultados de los partidos totales del **Manchester City** en la Premier Ligue.
+ A continuanción un histograma de frecuencias que nos indican los resultados de los partidos totales del Manchester City en la Premier Ligue.
 
-```{r Frec_Mancherster_col, echo=FALSE, warning=FALSE}
+```{r Frec_Mancherster_col, echo=FALSE, warning=FALSE, message=FALSE}
 man_plot <- v_man %>% group_by(Lugar, Ganador) %>% summarise(Total= n()) %>% 
-mutate(Porcentaje = round(Total/sum(Total)*100, 1))
+mutate(Porcentaje = round(Total/sum(Total)*100, 1), Proporcion=round(Total/sum(Total), 2))
 
-ggplot(man_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Manchester City") + theme_test() + ylim(c(0,220)) + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + 
+ggplot(man_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Manchester City") + theme_test() + ylim(c(0,220)) + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + theme(plot.title=element_text(hjust = 0.5, size=11)) + 
 geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
-         vjust=-0.4, 
+         vjust=-0.5, 
          color="black", 
          hjust=0.5,
          position = position_dodge(0.9), 
-         size=4.0)
-
-remove(man_plot)
+         size=3.0)
 ```
 
 ## Distrubición de Densidad de los Resultados de los Partidos de los Equipos
+ Adentrandonos en estas frecuencias, podemos estudiar su composión de proporciones, lo que nos ayuda a medir en una misma escala todo, y notar a simple vista lo que ocurre en comparación entre los equipos.
+
+```{r Dens_ath-man_col, echo=FALSE}
+g1 <- ggplot(ath_plot, aes (x=Lugar, y=Proporcion, fill=Ganador)) + geom_col(color="black", position="fill") + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + theme_bw() + labs(y="Proporciones") + ggtitle("Densidad de los Resultados \n(Athletic Club)") + theme(plot.title=element_text(size=11))
+
+g2 <- ggplot(man_plot, aes (x=Lugar, y=Proporcion, fill=Ganador)) + geom_col(color="black", position="fill") + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + theme_bw() + labs(y="Proporciones") + ggtitle("Densidad de los Resultados \n(Manchester City)") + theme(plot.title=element_text(size=11))
+
+plot_grid(g1, g2, nrow=1)
+
+remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
+```
 
 # Bibliografía
 
