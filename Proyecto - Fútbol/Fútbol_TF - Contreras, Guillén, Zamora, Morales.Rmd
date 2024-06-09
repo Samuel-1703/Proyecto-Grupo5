@@ -16,8 +16,9 @@ library(tinytex)
 library(DBI)
 library(RSQLite)
 library(tidyverse)
-library(kableExtra)
 library(cowplot)
+library(summarytools)
+library(kableExtra)
 
 #BBDD
 futbol <- dbConnect(SQLite(), dbname = "Fútbol Europeo BBDD.sqlite")
@@ -31,7 +32,7 @@ moda<- function(x) {
 Divisiones <- dbGetQuery(futbol, "SELECT * FROM Divisiones")
 Partidos <- dbGetQuery(futbol, "SELECT * FROM Partidos")
 
-#variables
+#Variables
 v_ath <- dbGetQuery(futbol,
 "SELECT * FROM (SELECT Id_Partidos, Team_Local AS Equipo, Ganador
 				FROM Partidos 
@@ -83,13 +84,24 @@ remove(Divisiones)
 4) ¿Puede distinguir un cambio de entrenador y/o jugadores del equipo para un dominio del marcador en su mayoría de juegos?
 
 
+\pagebreak
 # Resumen Descriptivo de la BBDD
 
-```{r Resumen Descriptivo - Futbol, echo=FALSE, warning=FALSE}
+ A continuación, un cuadro con detalles de la estadística descriptiva para la evaluación de las variables numéricas de la base de datos en estudio.
 
+```{r Resumen Descriptivo - Futbol, echo=FALSE}
+Partidos <- dbGetQuery(futbol, 
+"SELECT Goles_Local, Goles_Visitante FROM Partidos")
+
+tb_resumen1 <- Partidos %>% descr(stats = c("mean", "sd", "min", "q1", "med", "q3", "max","cv"), transpose = TRUE) %>% tb(order = 3) %>% mutate("Total de datos"=c(length(Partidos$Goles_Local), length(Partidos$Goles_Visitante)), Moda=c(moda(Partidos$Goles_Local), moda(Partidos$Goles_Visitante))) %>% select(c(1, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9)) %>% rename(Variable=variable, Media=mean, Desv_std=sd, Min=min, Q1=q1, Med=med, Q3=q3, Max=max, CV=cv) %>% mutate(Variable= recode(Variable, "Goles_Local" = "Goles Local", "Goles_Visitante" = "Goles Visitante")) %>% mutate(CV=CV*100) %>% mutate(across(c(4,5,11), ~ round(., 2)))
+
+tb_resumen1 %>% kable() %>% kable_styling(bootstrap_options = c("striped", "hover")) %>% column_spec(1, bold = T,  background="#EEEEEE") %>% row_spec(0, bold = T, background="#EEEEEE")
+
+remove(tb_resumen1, Partidos)
 ```
 
 
+\pagebreak
 # ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
 
  Se procede a evaluar los resultados de todos los juegos de la BBDD donde "Athetic Club" y el "Manchester City" juegan de local y serán comparados con los resultados donde juegan de visitante, de esta manera se visualizará en que posición se han llevado más victorias.
