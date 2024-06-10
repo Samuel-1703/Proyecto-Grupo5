@@ -5,7 +5,7 @@ date: "Junio del 2024"
 output: 
   pdf_document:
     toc: TRUE
-    toc_depth: 2
+    toc_depth: 3
 fontside: 11pt
 lang: Es-es
 ---
@@ -186,7 +186,7 @@ ggplot(man_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge
 - Ha perdido el 31,9% de sus partidos.\
 - Ha empatado el 21,1% de sus partidos. 
 
-## Distribución de Densidad de los Resultados de los Partidos de los Equipos
+### Distribución de Densidad de los Resultados de los Partidos de los Equipos - Athetic y Manchester
 
  Adentrándonos en estas frecuencias y porcentajes, podemos estudiar su composición de proporciones, lo que nos ayuda a medir en una misma escala todo, y notar a simple vista lo que ocurre en comparación entre los equipos.
 
@@ -204,11 +204,22 @@ remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
  
  Al igual que el equipo anterior, el Manchester City tiene una mayor tasa de victorias jugando como local, pero también se aprecia que a su vez ha ganado la mayor parte de la proporción de partidos jugando como visitante. Entonces se puede decir que es un destacable equipo de la premier ligue, pero tiene un mejor rendimiento jugando de local.
  
- Como dato, el que un equipo tenga muchas victorias jugando de local puede tener más detalles a considerar, como el sentido de hogar del equipo, una mayor cantidad de afición en los asientos a comparación del equipo rival, entre otros.
+ Como dato, el que un equipo tenga muchas victorias jugando de local puede tener más detalles a considerar, como el sentido de comodidad por jugar en su "hogar" del equipo, una mayor cantidad de afición apoyandolos en los asientos a comparación del equipo rival, entre otros.
 
+## Conclusión de 1er Objetivo
+
+ Si, los equipos jugando de manera local suelen tener una ventaja de victoria delante su rival. Presentan una mayor proporción de ganar delante los otros dos posibles resultados (empatar o perder) en la muestra, y por regularidad estadística, si se toma una muestra de un espacio muestral, se va a comportar igual al espacio muestra.
+ 
+ Se respalda esta información con el artículo que hizo Fatima Juan Belmonte, una reportera de prensa deportiva. Mediante hechos con respecto a un equipo español, demostró la importancia de la afición a su equipo, la fuente de motivación que son para el mismo e incluso su relevancia a la hora de nuevos fichajes.
+
+ También Carlos Cueva, profesor de Economía de la Universidad de Alicante, realizó un estudio sobre 41 ligas (antes y después de que comenzó la pandemia), y comprobó que la afición local genera una presión al equipo visitante, recopilando resultados, se notó que sin la afición de ninguna de las partes, los equipos visitantes aumenta su tasa de victoria hasta un 12% por temporada, pero nunca es mayor a la tasa de victorias local.
 
 \pagebreak
 # Bibliografía
+
+* https://www.vavel.com/es/futbol/2017/11/19/rayo-vallecano/849777-la-importancia-de-la-aficion.html
+
+* https://www.primicias.ec/noticias/jugada/peso-influencia-hinchada-equipos-locales-estadios-futbol/
 
 * https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
 
