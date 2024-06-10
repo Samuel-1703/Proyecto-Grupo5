@@ -217,22 +217,22 @@ remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
 \pagebreak
 # Bibliografía
 
-* https://www.vavel.com/es/futbol/2017/11/19/rayo-vallecano/849777-la-importancia-de-la-aficion.html
+* Belmonte, F. (2017, noviembre 19). La importancia de la afición. VAVEL. Recuperado de https://www.vavel.com/es/futbol/2017/11/19/rayo-vallecano/849777-la-importancia-de-la-aficion.html
 
-* https://www.primicias.ec/noticias/jugada/peso-influencia-hinchada-equipos-locales-estadios-futbol/
+* Guerrero, S. (2021, febrero 18). ¿Cuál es la influencia de las hinchadas locales en el fútbol?. PRIMICIAS. Recuperado de https://www.primicias.ec/noticias/jugada/peso-influencia-hinchada-equipos-locales-estadios-futbol/
 
-* https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
+* CAMBIOS DE ENTRENADORES DURANTE LA TEMPORADA. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
 
-* https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2017
+* CAMBIOS DE ENTRENADORES DURANTE LA TEMPORADA. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2017
 
-* https://www.transfermarkt.es/laliga/trainereffekt/wettbewerb/ES1/plus/?saison_id=2018&spiele=15
+* IMPACTO DE ENTRENADOR. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/trainereffekt/wettbewerb/ES1/plus/?saison_id=2018&spiele=15
 
-* https://www.transfermarkt.es/laliga/trainereffekt/wettbewerb/ES1/plus/?saison_id=2017&spiele=15
+* IMPACTO DE ENTRENADOR. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/trainereffekt/wettbewerb/ES1/plus/?saison_id=2017&spiele=15
 
-* https://www.transfermarkt.es/athletic-club/kader/verein/621/plus/0/galerie/0?saison_id=2018
+* EQUIPO ATHLETIC CLUB - TEMPORADA 18/19. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/athletic-club/kader/verein/621/plus/0/galerie/0?saison_id=2018
 
-* https://www.transfermarkt.es/athletic-club/kader/verein/621/plus/0/galerie/0?saison_id=2017
+* EQUIPO ATHLETIC CLUB - TEMPORADA 17/18. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/athletic-club/kader/verein/621/plus/0/galerie/0?saison_id=2017
 
-* https://www.transfermarkt.es/rc-celta-de-vigo/kader/verein/940/plus/0/galerie/0?saison_id=2018
+* EQUIPO RC CELTA DE VIGO - TEMPORADA 18/19. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/rc-celta-de-vigo/kader/verein/940/plus/0/galerie/0?saison_id=2018
 
-* https://www.transfermarkt.es/rc-celta-de-vigo/kader/verein/940/plus/0/galerie/0?saison_id=2017
+* EQUIPO RC CELTA DE VIGO - TEMPORADA 17/18. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/rc-celta-de-vigo/kader/verein/940/plus/0/galerie/0?saison_id=2017
