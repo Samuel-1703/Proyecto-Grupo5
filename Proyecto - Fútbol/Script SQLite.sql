@@ -100,3 +100,10 @@ SELECT Team_Local AS Equipos, sum(Goles_Local) AS Goles_Total_Local From Partido
 
 /* 5ta Query: Se requiere observar todos los partidos con sus marcadores en el
 cual se enfrentaron el Real Madrid contra el Barcelona Futbol Club */
+
+CREATE VIEW "Query_5" AS
+SELECT Fecha, Team_Local AS Equipo_Local, Team_Visitante AS Equipo_Visitante, Goles_Local, Goles_Visitante, Ganador, Temporada
+	FROM Partidos
+		WHERE (Team_Local LIKE '%Real Madrid%' AND Team_Visitante LIKE '%Barcelona%') 
+			OR (Team_Local LIKE '%Barcelona%'AND Team_Visitante LIKE '%Real Madrid%')
+		ORDER BY Fecha, Temporada;
