@@ -92,6 +92,11 @@ SELECT Cod_Division, Equipo, Max(Total_Goles) AS Maximos_Goleadores, (Temporada)
 /* 4ta Query: Se quiere saber cuáles fueron los 10 equipos con más goles
 anotados como local indistintamente de la liga y la temporada */
 
+CREATE VIEW "Query_4" AS
+SELECT Team_Local AS Equipos, sum(Goles_Local) AS Goles_Total_Local From Partidos
+	GROUP BY Team_Local
+	ORDER BY Goles_Total_Local DESC
+	LIMIT 10;
 
 /* 5ta Query: Se requiere observar todos los partidos con sus marcadores en el
 cual se enfrentaron el Real Madrid contra el Barcelona Futbol Club */
