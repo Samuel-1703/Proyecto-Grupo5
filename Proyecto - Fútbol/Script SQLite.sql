@@ -43,6 +43,85 @@ SELECT Id_Partidos, Team_Visitante||'.' AS Team_Visitante, Ganador FROM Partidos
 CREATE VIEW "Obj_12" AS
 SELECT Id_Partidos, Team_Visitante||'.' AS Team_Visitante, Ganador FROM Partidos 
 	WHERE Cod_Division='E0' AND Team_Visitante='Man City';
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+/*Creando vista de los partidos de los equipos ramdons de la Bundesliga (2do objetivo en R)*/
+CREATE VIEW "Obj_2" AS
+SELECT Cod_Division, Team_Local AS Equipo, Goles_Local AS Goles_Pro, Team_Visitante AS Rival, Temporada
+FROM (SELECT Id_Partidos, Cod_Division, Team_Local, Goles_Local, Team_Visitante, Temporada FROM Partidos
+		WHERE Cod_Division = 'D1' 
+			AND Temporada IN ('2016-17', '2017-18') 
+			AND Team_Local = 'Leverkusen'
+	UNION		
+	SELECT Id_Partidos, Cod_Division, Team_Visitante, Goles_Visitante, Team_Local, Temporada FROM Partidos
+		WHERE Cod_Division = 'D1' 
+			AND Temporada IN ('2016-17', '2017-18')
+			AND Team_Visitante = 'Leverkusen'
+
+UNION
+
+	SELECT Id_Partidos, Cod_Division, Team_Local, Goles_Local, Team_Visitante, Temporada FROM Partidos
+		WHERE Cod_Division = 'D1' 
+			AND Temporada IN ('2016-17', '2017-18') 
+			AND Team_Local = 'Ein Frankfurt'
+	UNION		
+	SELECT Id_Partidos, Cod_Division, Team_Visitante, Goles_Visitante, Team_Local, Temporada FROM Partidos
+		WHERE Cod_Division = 'D1' 
+			AND Temporada IN ('2016-17', '2017-18')
+			AND Team_Visitante = 'Ein Frankfurt'
+
+UNION
+
+	SELECT Id_Partidos, Cod_Division, Team_Local, Goles_Local, Team_Visitante, Temporada FROM Partidos
+		WHERE Cod_Division = 'D1' 
+			AND Temporada IN ('2016-17', '2017-18') 
+			AND Team_Local = 'Freiburg'
+	UNION		
+	SELECT Id_Partidos, Cod_Division, Team_Visitante, Goles_Visitante, Team_Local, Temporada FROM Partidos
+		WHERE Cod_Division = 'D1' 
+			AND Temporada IN ('2016-17', '2017-18')
+			AND Team_Visitante = 'Freiburg'
+);
+
+/*Creando vista de los partidos de los equipos ramdons de Laliga (2do objetivo en R)*/
+CREATE VIEW "Obj_22" AS
+SELECT Cod_Division, Team_Local AS Equipo, Goles_Local AS Goles_Pro, Team_Visitante AS Rival, Temporada
+FROM (SELECT Id_Partidos, Cod_Division, Team_Local, Goles_Local, Team_Visitante, Temporada FROM Partidos
+		WHERE Cod_Division = 'SP1' 
+			AND Temporada IN ('2017-18', '2018-19')
+			AND Team_Local = 'Barcelona'
+	UNION		
+	SELECT Id_Partidos, Cod_Division, Team_Visitante, Goles_Visitante, Team_Local, Temporada FROM Partidos
+		WHERE Cod_Division = 'SP1' 
+			AND Temporada IN ('2017-18', '2018-19')
+			AND Team_Visitante = 'Barcelona'
+
+UNION
+
+	SELECT Id_Partidos, Cod_Division, Team_Local, Goles_Local, Team_Visitante, Temporada FROM Partidos
+		WHERE Cod_Division = 'SP1' 
+			AND Temporada IN ('2017-18', '2018-19') 
+			AND Team_Local = 'Sevilla'
+	UNION		
+	SELECT Id_Partidos, Cod_Division, Team_Visitante, Goles_Visitante, Team_Local, Temporada FROM Partidos
+		WHERE Cod_Division = 'SP1' 
+			AND Temporada IN ('2017-18', '2018-19')
+			AND Team_Visitante = 'Sevilla'
+
+UNION
+
+	SELECT Id_Partidos, Cod_Division, Team_Local, Goles_Local, Team_Visitante, Temporada FROM Partidos
+		WHERE Cod_Division = 'SP1' 
+			AND Temporada IN ('2017-18', '2018-19') 
+			AND Team_Local = 'Ath Bilbao'
+	UNION		
+	SELECT Id_Partidos, Cod_Division, Team_Visitante, Goles_Visitante, Team_Local, Temporada FROM Partidos
+		WHERE Cod_Division = 'SP1' 
+			AND Temporada IN ('2017-18', '2018-19')
+			AND Team_Visitante = 'Ath Bilbao'
+);
+
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
 /* 1era Query: Indicar los nombres y países de las 5 divisiones que tienen más
