@@ -238,11 +238,25 @@ remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
 \pagebreak
 # ¿Cuál fué el efecto reflejado en la cantidad de goles en las ligas tras la implementación del Video Assistant Referee (VAR)?
 
-```{r}
+# Dispersión de Goles - Bundesliga
+
+```{r Disp_bundes_boxplot, echo=FALSE}
 g1 <- ggplot(var_bundes_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
  labs(x="Equipos", y="Goles Anotados")
 
 g2 <- ggplot(var_bundes_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
+ labs(x="Equipos", y="Goles Anotados")
+
+plot_grid(g1, g2, nrow=1)
+```
+
+# Dispersión de Goles - Laliga
+
+```{r Disp_laliga_boxplot, echo=FALSE}
+g1 <- ggplot(var_laliga_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
+ labs(x="Equipos", y="Goles Anotados")
+
+g2 <- ggplot(var_laliga_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
  labs(x="Equipos", y="Goles Anotados")
 
 plot_grid(g1, g2, nrow=1)
