@@ -105,7 +105,7 @@ var_laliga_despues <- dbGetQuery(futbol,
 
 2) ¿Influyeron los partidos sin público durante la pandemia en la capacidad de anotar goles por parte de los equipos que jugaron de visitante?
 
-3) ¿Cuál fué el efecto reflejado en la cantidad de goles en las ligas tras la implementación del Video Assistant Referee (VAR)?
+3) ¿Cuál fué el efecto en la consistencia reflejada en la cantidad de goles en las ligas tras la implementación del Video Assistant Referee (VAR)?
 
 4) ¿Puede distinguir un cambio de entrenador y/o jugadores del equipo para un dominio del marcador en su mayoría de juegos?
 
@@ -153,7 +153,7 @@ remove(tb_resumen1, Partidos, Divisiones)
 * Obtenemos un coeficiente de variación de 97,14%, lo que nos dice que los goles locales presentan una variabilidad alta.
 
 \pagebreak
-# ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
+# ¿Los Equipos Tienden a Ganar más Cuando Juegan en sus Estadios Locales?
 
  Se procede a evaluar los resultados de todos los juegos de la BBDD donde "Athetic Club" y el "Manchester City" juegan de local y serán comparados con los resultados donde juegan de visitante, de esta manera se visualizará en que posición se han llevado más victorias.
  
@@ -242,7 +242,7 @@ remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
  También Carlos Cueva, profesor de Economía de la Universidad de Alicante, realizó un estudio sobre 41 ligas (antes y después de que comenzó la pandemia), y comprobó que la afición local genera una presión al equipo visitante, recopilando resultados, se notó que sin la afición de ninguna de las partes, los equipos visitantes aumenta su tasa de victoria hasta un 12% por temporada, pero nunca es mayor a la tasa de victorias local.
 
 \pagebreak
-# ¿Cuál fué el efecto reflejado en la cantidad de goles en las ligas tras la implementación del Video Assistant Referee (VAR)?
+# ¿Cuál fué el Efecto en la Consistencia Reflejada en la Cantidad de Goles en las Ligas Tras la Implementación del Video Assistant Referee (VAR)?
 
  Se procede a evaluar los goles anotados por 3 equipos de las ligas “Bundesliga” y “Laliga”, y comparar sus cambios una temporada antes y después la implementación oficial del VAR en sus respectivas divisiones de 1era.
 
@@ -274,7 +274,23 @@ tb_resumen2 %>% mutate(tb_resumen3) %>% kable() %>% kable_styling(bootstrap_opti
 remove(var_bundes_antes, var_bundes_despues, tb_resumen2, tb_resumen3)
 ```
 
-![Dispersión - Bundeliga]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Dispersión Bundesliga.jpg"){width=90%}
+ Específicamente hablando de la dispersión de los datos, independientemente de su mejoría o desmejoría a nivel de goles, notemos que en estos tres equipos hubieron 2 de 3 (Friburgo y Leverkusen) que aumentaron su desviación estándar con respecto a su media.  
+
+* En el caso de Friburgo en pocas palabras, su concentración de datos pasó a encontrarse entre 0 y 1 goles, y sus datos atípicos más altos están entre 3 y 4 goles.
+* En el caso de Leverkusen, su concentración de datos se mantuvo entre 1 y 2 goles, y hubo varios datos atípicos para la muestra, entre 4 y 5 goles.
+
+ Con respecto al otro equipo (Eintracht), apenas y hubo una muy ligera disminución de su desviación estándar con respecto a su media.
+
+ Lo curioso de este caso es que 2 de los 3 equipos (Eintracht y Leverkusen) evaluados en términos de goles han superado sus valores de posición y por consiguiente su media, se dice que después de la inclusión del VAR les fue mejor anotando goles “válidos”.  
+ Por otra parte el otro equipo (Friburgo) se vió afectado y disminuyó estas estadísticas, tras la inclusión del VAR se fue peor anotando goles “válidos”.
+
+### Tabla de Posiciones - Bundesliga
+
+ Estos casos tan “inesperados” inicialmente, de mejoría en estos 2 equipos, se deben a que eran equipos que venían de tener una temporada 2016-17 mala, pues habían quedado por detrás del 10mo lugar de toda la liga. Para en la entrante superar al menos 3 posiciones, quedando por arriba del 9no lugar.
+
+ En el caso del equipo en desmejoría, pasó de quedar en el 7mo lugar en la temporada 2016-17 a quedar de 15vo lugar en la 2017-18.
+
+![Tabla de Posición - Bundesliga]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Dispersión Bundesliga.jpg"){width=90%}
 
 ## Dispersión de Goles - Laliga
 
@@ -300,6 +316,9 @@ tb_resumen4 %>% mutate(tb_resumen5) %>% kable() %>% kable_styling(bootstrap_opti
 remove(var_laliga_antes, var_laliga_despues, tb_resumen4, tb_resumen5)
 ```
 
+### Tabla de Posiciones - Laliga
+
+![Tabla de Posición - Laliga]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Dispersión Laliga.jpg"){width=90%}
 
 \pagebreak
 # Bibliografía
@@ -311,6 +330,10 @@ remove(var_laliga_antes, var_laliga_despues, tb_resumen4, tb_resumen5)
 * CLUBES DE LA BUNDESLIGA 16/17. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2016
 
 * CLUBES DE LA BUNDESLIGA 17/18. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2017
+
+* CLUBES DE LA LALIGA 17/18. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/startseite/wettbewerb/ES1/plus/?saison_id=2017
+
+* CLUBES DE LA LALIGA 18/19. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/startseite/wettbewerb/ES1/plus/?saison_id=2018
 
 * CAMBIOS DE ENTRENADORES DURANTE LA TEMPORADA. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
 
