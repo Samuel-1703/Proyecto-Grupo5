@@ -1,6 +1,6 @@
 ---
-title: "Por definir xd"
-author: "Contreras Valeria, Guillén David, Zamora Samuel, Morales Andrés"
+title: "Demostración de Algunos Factores que Afectan al Rendimiento de los equipos de Fútbol"
+author: "Contreras Valeria, Guillén David, Zamora Samuel"
 date: "Junio del 2024"
 output: 
   pdf_document:
@@ -51,23 +51,44 @@ v_man <- dbGetQuery(futbol,
 	ORDER BY Ganador")
 v_man <- v_man %>% mutate(Lugar = case_when(Equipo == "Man City" ~ "Local", Equipo == "Man City." ~ "Visitante")) %>% mutate(Ganador = recode(Ganador, "E" = "Empate", "L" = "Local", "V" = "Visitante"))
 
-#Para ultimo objetivo
-#goles_athletic_local <- dbGetQuery(futbol, "SELECT * FROM laliga_2017_2018
-#	WHERE Team_Local='Ath Bilbao'")
-remove(Divisiones)
+var_bundes_antes <- dbGetQuery(futbol,
+"SELECT * FROM Obj_2
+  WHERE Temporada = '2016-17'")
+var_bundes_despues <- dbGetQuery(futbol,
+"SELECT * FROM Obj_2
+  WHERE Temporada = '2017-18'")
+
+var_laliga_antes <- dbGetQuery(futbol,
+"SELECT * FROM Obj_22
+  WHERE Temporada = '2017-18'")
+var_laliga_despues <- dbGetQuery(futbol,
+"SELECT * FROM Obj_22
+  WHERE Temporada = '2018-19'")
+
+# Para ultimo objetivo
+#g_ath <- dbGetQuery(futbol, 
+#"SELECT Equipo, Goles_Pro, Goles_Contra, Rival, Temporada, Fecha
+#FROM (SELECT Id_Partidos, Team_Local AS Equipo, Goles_Local AS Goles_Pro, Goles_Visitante AS #Goles_Contra, Team_Visitante AS Rival, Temporada, Fecha
+#	  FROM Partidos
+#			WHERE Team_Local='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19')
+#	 UNION
+#	  SELECT Id_Partidos,Team_Visitante, Goles_Visitante, Goles_Local, Team_Local, Temporada, Fecha
+#	  FROM Partidos
+#			WHERE Team_Visitante='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19'))
+#ORDER BY Fecha;")
 ```
 
 \pagebreak
 # Planteamiento del Problema
 
- El fútbol es un deporte a nivel profesional alto de once jugadores por equipo, involucra la cooperación mutua del equipo y se sabe que es un deporte que conlleva el contacto. Estos equipos tienen la misión de trasladar un balón utilizando cualquier parte del cuerpo exceptuando brazos y manos con la finalidad de encajarlo dentro de la portería o arco del conjunto rival, acción que se denomina gol. El equipo con más goles durante un partido de 90 minutos ganará el encuentro.
+ El fútbol es un deporte a nivel profesional alto de once jugadores por equipo en el juego, involucra la cooperación mutua del equipo y se sabe que es un deporte que conlleva el contacto. Estos equipos tienen la misión de trasladar un balón utilizando cualquier parte del cuerpo exceptuando brazos y manos con la finalidad de encajarlo dentro de la portería o arco del conjunto rival, acción que se denomina gol. El equipo con más goles durante un partido de 90 minutos ganará el encuentro.
 
  Pueden existir partidos en los que un equipo sea tácticamente muy superior al rival, o que cuente con jugadores de mejor calidad. Al final del partido puede influir en que dominen en estadísticas como mayor posesión de balón, mayor precisión en los pases, más disparos al arco rival, mayor cantidad de tiros libres y todo lo que pueda favorecer a un equipo para demostrar que es superior, pero lo único que sentencia un partido son los goles, y ganar como en cualquier deporte es la única manera de avanzar en un torneo o competición.
 
- Ya que marcar goles para cualquier equipo es una necesidad, resulta interesante develar qué factores pueden influir en los conjuntos para que aumente o disminuya su capacidad goleadora.
+ Ya que marcar goles para cualquier equipo es una necesidad, resulta interesante develar qué factores pueden influir en los equipos para que aumente o disminuya su capacidad goleadora.
 
  Se tiene en estudio una base de datos relacionados a algunas ligas del fútbol europeo, entre ellas las 5 más importantes del mundo según la plataforma Global Football Rankings, que utiliza análisis de datos para evaluar y clasificar las ligas de fútbol en todo el mundo, esta plataforma concluye que en este top se encuentran la Premier League (Inglaterra), La Bundesliga (Alemania), LaLiga (España), Serie A (Italia) y Ligue 1 (Francia).  
- La base de datos cuenta con variables como los goles anotados por los equipos de cada liga tanto de local como de visitante, a lo largo de las temporadas que transcurrieron desde el año 2006 hasta el año 2021, y partiendo de dicha información surgen las interrogantes que se presentan a continuación. 
+ La base de datos cuenta con variables como los goles anotados por los equipos de cada liga tanto de local como de visitante, a lo largo de las temporadas que transcurrieron desde el año 2006 hasta el año 2021.
 
  El objetivo del presente trabajo estadístico es exponer y demostrar algunos factores determinantes que tienen influencia en la cantidad de goles y victorias que se pueden llevar un equipo partido a partido. Todo esto en base a la secuencia de partidos de las ligas y divisiones que están registradas en la BBDD.  
  Trabajaremos con unas muestras de la BBDD la cual consta principalmente del equipo "Athletic Club" de Bilbao que juega en la primera división de “La Liga”, el campeonato nacional de España. Mientras avanzamos con el desarrollo del trabajo, también se expondrán otros equipos aleatorios a las pruebas del objetivo junto al principal anteriormente mencionado.
@@ -79,7 +100,7 @@ remove(Divisiones)
 
 2) ¿Influyeron los partidos sin público durante la pandemia en la capacidad de anotar goles por parte de los equipos que jugaron de visitante?
 
-3) ¿Tuvo influencia la implementación del Video Assistant Referee (VAR), en la cantidad de goles que ofrecían las respectivas ligas?
+3) ¿Cuál fué el efecto reflejado en la cantidad de goles en las ligas tras la implementación del Video Assistant Referee (VAR)?
 
 4) ¿Puede distinguir un cambio de entrenador y/o jugadores del equipo para un dominio del marcador en su mayoría de juegos?
 
@@ -97,7 +118,7 @@ tb_resumen1 <- Partidos %>% descr(stats = c("mean", "sd", "min", "q1", "med", "q
 
 tb_resumen1 %>% kable() %>% kable_styling(bootstrap_options = c("striped", "hover")) %>% column_spec(1, bold = T,  background="#E0E0E0") %>% row_spec(0, bold = T, background="#E0E0E0")
 
-remove(tb_resumen1, Partidos)
+remove(tb_resumen1, Partidos, Divisiones)
 ```
 
 ## Goles Realizados por los Equipos Jugando como Local
@@ -141,7 +162,7 @@ remove(tb_resumen1, Partidos)
 ath_plot <- v_ath %>% group_by(Lugar, Ganador) %>% summarise(Total= n())%>% 
 mutate(Porcentaje=round(Total/sum(Total)*100, 1), Proporcion=round(Total/sum(Total), 2))
 
-ggplot(ath_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Athletic Club de Bilbao") + theme_test() + ylim(c(0,160)) + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + theme(plot.title=element_text(hjust = 0.5, size=11)) +
+ggplot(ath_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Athletic Club de Bilbao") + theme_test() + ylim(c(0,160)) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(plot.title=element_text(hjust = 0.5, size=11)) +
 geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
          vjust=-0.5, 
          color="black", 
@@ -168,7 +189,7 @@ geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
 man_plot <- v_man %>% group_by(Lugar, Ganador) %>% summarise(Total= n()) %>% 
 mutate(Porcentaje = round(Total/sum(Total)*100, 1), Proporcion=round(Total/sum(Total), 2))
 
-ggplot(man_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Manchester City") + theme_test() + ylim(c(0,220)) + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
+ggplot(man_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Manchester City") + theme_test() + ylim(c(0,220)) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
          vjust=-0.5, 
          color="black", 
          hjust=0.5,
@@ -191,9 +212,9 @@ ggplot(man_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge
  Adentrándonos en estas frecuencias y porcentajes, podemos estudiar su composición de proporciones, lo que nos ayuda a medir en una misma escala todo, y notar a simple vista lo que ocurre en comparación entre los equipos.
 
 ```{r Dens_ath-man_col, echo=FALSE}
-g1 <- ggplot(ath_plot, aes (x=Lugar, y=Proporcion, fill=Ganador)) + geom_col(color="black", position="fill") + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + theme_bw() + labs(y="Proporciones") + ggtitle("Densidad de los Resultados \n(Athletic Club)") + theme(plot.title=element_text(size=11))
+g1 <- ggplot(ath_plot, aes (x=Lugar, y=Proporcion, fill=Ganador)) + geom_col(color="black", position="fill") + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme_bw() + labs(y="Proporciones") + ggtitle("Densidad de los Resultados \n(Athletic Club)") + theme(plot.title=element_text(size=11))
 
-g2 <- ggplot(man_plot, aes (x=Lugar, y=Proporcion, fill=Ganador)) + geom_col(color="black", position="fill") + scale_fill_manual(values=c("#CE93D8", "#9C27BD", "#BA68CB")) + theme_bw() + labs(y="Proporciones") + ggtitle("Densidad de los Resultados \n(Manchester City)") + theme(plot.title=element_text(size=11))
+g2 <- ggplot(man_plot, aes (x=Lugar, y=Proporcion, fill=Ganador)) + geom_col(color="black", position="fill") + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme_bw() + labs(y="Proporciones") + ggtitle("Densidad de los Resultados \n(Manchester City)") + theme(plot.title=element_text(size=11))
 
 plot_grid(g1, g2, nrow=1)
 
@@ -206,7 +227,7 @@ remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
  
  Como dato, el que un equipo tenga muchas victorias jugando de local puede tener más detalles a considerar, como el sentido de comodidad por jugar en su "hogar" del equipo, una mayor cantidad de afición apoyandolos en los asientos a comparación del equipo rival, entre otros.
 
-## Conclusión de 1er Objetivo
+## Conclusión del Rendimiento por los Estadios Locales
 
  Si, los equipos jugando de manera local suelen tener una ventaja de victoria delante su rival. Presentan una mayor proporción de ganar delante los otros dos posibles resultados (empatar o perder) en la muestra, y por regularidad estadística, si se toma una muestra de un espacio muestral, se va a comportar igual al espacio muestra.
  
@@ -215,11 +236,29 @@ remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
  También Carlos Cueva, profesor de Economía de la Universidad de Alicante, realizó un estudio sobre 41 ligas (antes y después de que comenzó la pandemia), y comprobó que la afición local genera una presión al equipo visitante, recopilando resultados, se notó que sin la afición de ninguna de las partes, los equipos visitantes aumenta su tasa de victoria hasta un 12% por temporada, pero nunca es mayor a la tasa de victorias local.
 
 \pagebreak
+# ¿Cuál fué el efecto reflejado en la cantidad de goles en las ligas tras la implementación del Video Assistant Referee (VAR)?
+
+```{r}
+g1 <- ggplot(var_bundes_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
+ labs(x="Equipos", y="Goles Anotados")
+
+g2 <- ggplot(var_bundes_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
+ labs(x="Equipos", y="Goles Anotados")
+
+plot_grid(g1, g2, nrow=1)
+```
+
+
+\pagebreak
 # Bibliografía
 
 * Belmonte, F. (2017, noviembre 19). La importancia de la afición. VAVEL. Recuperado de https://www.vavel.com/es/futbol/2017/11/19/rayo-vallecano/849777-la-importancia-de-la-aficion.html
 
 * Guerrero, S. (2021, febrero 18). ¿Cuál es la influencia de las hinchadas locales en el fútbol?. PRIMICIAS. Recuperado de https://www.primicias.ec/noticias/jugada/peso-influencia-hinchada-equipos-locales-estadios-futbol/
+
+* https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2016
+
+* https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2017
 
 * CAMBIOS DE ENTRENADORES DURANTE LA TEMPORADA. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
 
