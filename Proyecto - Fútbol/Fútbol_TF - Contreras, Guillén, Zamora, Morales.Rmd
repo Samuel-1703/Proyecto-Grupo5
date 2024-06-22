@@ -10,6 +10,8 @@ fontside: 11pt
 lang: Es-es
 ---
 
+![Escuela de Estadística y Ciencias Actuariales]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Logo de la EECA.png"){width='120px'}
+
 ```{r Bliblioteca, include=FALSE}
 #Paquetes a utilizar
 library(tinytex)
@@ -54,9 +56,11 @@ v_man <- v_man %>% mutate(Lugar = case_when(Equipo == "Man City" ~ "Local", Equi
 var_bundes_antes <- dbGetQuery(futbol,
 "SELECT * FROM Obj_2
   WHERE Temporada = '2016-17'")
+var_bundes_antes <- var_bundes_antes %>% mutate(Equipo = recode(Equipo, "Ein Frankfurt" = "Eintracht", "Freiburg" = "Friburgo"))
 var_bundes_despues <- dbGetQuery(futbol,
 "SELECT * FROM Obj_2
   WHERE Temporada = '2017-18'")
+var_bundes_despues <- var_bundes_despues %>% mutate(Equipo = recode(Equipo, "Ein Frankfurt" = "Eintracht", "Freiburg" = "Friburgo"))
 
 var_laliga_antes <- dbGetQuery(futbol,
 "SELECT * FROM Obj_22
@@ -78,7 +82,6 @@ var_laliga_despues <- dbGetQuery(futbol,
 #ORDER BY Fecha;")
 ```
 
-![Escuela de Estadística y Ciencias Actuariales]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Logo de la EECA.png"){width='120px'}
 
 \pagebreak
 # Planteamiento del Problema
@@ -116,7 +119,7 @@ var_laliga_despues <- dbGetQuery(futbol,
 Partidos <- dbGetQuery(futbol, 
 "SELECT Goles_Local, Goles_Visitante FROM Partidos")
 
-tb_resumen1 <- Partidos %>% descr(stats = c("mean", "sd", "min", "q1", "med", "q3", "max","cv"), transpose = TRUE) %>% tb(order = 3) %>% mutate("Total de datos"=c(length(Partidos$Goles_Local), length(Partidos$Goles_Visitante)), Moda=c(moda(Partidos$Goles_Local), moda(Partidos$Goles_Visitante))) %>% select(c(1, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9)) %>% rename(Variable=variable, Media=mean, Desv_std=sd, Min=min, Q1=q1, Med=med, Q3=q3, Max=max, CV=cv) %>% mutate(Variable= recode(Variable, "Goles_Local" = "Goles Local", "Goles_Visitante" = "Goles Visitante")) %>% mutate(CV=CV*100) %>% mutate(across(c(4,5,11), ~ round(., 2)))
+tb_resumen1 <- Partidos %>% descr(stats = c("mean", "sd", "min", "q1", "med", "q3", "max","cv"), transpose = TRUE) %>% tb(order = 3) %>% mutate("Total de datos"=c(length(Partidos$Goles_Local), length(Partidos$Goles_Visitante)), Moda=c(moda(Partidos$Goles_Local), moda(Partidos$Goles_Visitante))) %>% select(c(1, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9)) %>% rename(Variable=variable, Media=mean, "Desv-Std"=sd, Min=min, Q1=q1, Med=med, Q3=q3, Max=max, CV=cv) %>% mutate(Variable= recode(Variable, "Goles_Local" = "Goles Local", "Goles_Visitante" = "Goles Visitante")) %>% mutate(CV=CV*100) %>% mutate(across(c(4,5,11), ~ round(., 2)))
 
 tb_resumen1 %>% kable() %>% kable_styling(bootstrap_options = c("striped", "hover")) %>% column_spec(1, bold = T,  background="#E0E0E0") %>% row_spec(0, bold = T, background="#E0E0E0")
 
@@ -251,14 +254,24 @@ remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
 
  A continuación gráficos de caja y bigote que ayuda a visualizar la dispersión de los goles anotados por los equipos de la Bundesliga en estudio.
 
-```{r Disp_bundes_boxplot, echo=FALSE}
-g1 <- ggplot(var_bundes_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD"))+ labs(y="Goles Anotados") + scale_x_discrete("Equipos", labels = c("Eintracht", "Friburgo", "Leverkusen")) + theme_bw() + theme(legend.position = "none") 
+```{r Disp_bundes_boxplot, echo=FALSE, warning=FALSE}
+g3 <- ggplot(var_bundes_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD"))+ labs(x="Equipos", y="Goles Anotados") + theme_bw() + ylim(c(0,6)) + theme(legend.position = "none") 
 
-g2 <- ggplot(var_bundes_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD"))+ labs(y="Goles Anotados") + scale_x_discrete("Equipos", labels = c("Eintracht", "Friburgo", "Leverkusen")) + theme_bw() + theme(legend.position = "none") 
+g4 <- ggplot(var_bundes_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD"))+ labs(x="Equipos", y="Goles Anotados") + theme_bw() + ylim(c(0,6)) + theme(legend.position = "none") 
 
-plot_grid(g1, g2, nrow=1)
+plot_grid(g3, g4, nrow=1)
 
-remove(var_bundes_antes, var_bundes_despues)
+remove(g3, g4)
+```
+
+```{r Resumen_esta Dist_bundes, echo=FALSE}
+tb_resumen2 <- var_bundes_antes %>% group_by(Equipo) %>% descr(stats = c("min", "q1", "med", "q3", "max", "mean", "sd"), transpose = TRUE) %>% tb(order = 3) %>% rename(Min=min, Q1=q1, Med=med, Q3=q3, Max=max, "Media(antes)"=mean, "Desv-Std(antes)"=sd) %>% mutate(across(c(8,9), ~ round(., 2))) %>% select(c(2, 3, 4, 5, 6, 7, 8, 9))
+
+tb_resumen3 <- var_bundes_despues %>% group_by(Equipo) %>% descr(stats = c("mean", "sd"), transpose = TRUE) %>% tb(order = 3) %>% rename("Media(después)"=mean, "Desv-Std(después)"=sd) %>% mutate(across(c(3,4), ~ round(., 2))) %>% select(c(3, 4))
+
+tb_resumen2 %>% mutate(tb_resumen3) %>% kable() %>% kable_styling(bootstrap_options = c("striped", "hover"), font_size = 8) %>% column_spec(1, bold = T,  background="#E0E0E0") %>% row_spec(0, bold = T, background="#E0E0E0")
+
+remove(var_bundes_antes, var_bundes_despues, tb_resumen2, tb_resumen3)
 ```
 
 ![Dispersión - Bundeliga]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Dispersión Bundesliga.jpg"){width=90%}
@@ -267,14 +280,24 @@ remove(var_bundes_antes, var_bundes_despues)
 
  A continuación gráficos de caja y bigote que ayuda a visualizar la dispersión de los goles anotados por los equipos de Laliga en estudio.
 
-```{r Disp_laliga_boxplot, echo=FALSE}
-g1 <- ggplot(var_laliga_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD"))+ labs(x="Equipos", y="Goles Anotados") + theme_bw() + theme(legend.position = "none") 
+```{r Disp_laliga_boxplot, echo=FALSE, warning=FALSE}
+g5 <- ggplot(var_laliga_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD"))+ labs(x="Equipos", y="Goles Anotados") + theme_bw() + ylim(c(0,8)) + theme(legend.position = "none") 
 
-g2 <- ggplot(var_laliga_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + labs(x="Equipos", y="Goles Anotados") + theme_bw() + theme(legend.position = "none")
+g6 <- ggplot(var_laliga_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + labs(x="Equipos", y="Goles Anotados") + theme_bw() + ylim(c(0,8)) + theme(legend.position = "none")
 
-plot_grid(g1, g2, nrow=1)
+plot_grid(g5, g6, nrow=1)
 
-remove(var_laliga_antes, var_laliga_despues, g1, g2)
+remove(g5, g6)
+```
+
+```{r Resumen_esta Dist_laliga, echo=FALSE}
+tb_resumen4 <- var_laliga_antes %>% group_by(Equipo) %>% descr(stats = c("min", "q1", "med", "q3", "max", "mean", "sd"), transpose = TRUE) %>% tb(order = 3) %>% rename(Min=min, Q1=q1, Med=med, Q3=q3, Max=max, "Media(antes)"=mean, "Desv-Std(antes)"=sd) %>% mutate(across(c(8,9), ~ round(., 2)))%>% select(c(2, 3, 4, 5, 6, 7, 8, 9))
+
+tb_resumen5 <- var_laliga_despues %>% group_by(Equipo) %>% descr(stats = c("mean", "sd"), transpose = TRUE) %>% tb(order = 3) %>% rename("Media(después)"=mean, "Desv-Std(después)"=sd) %>% mutate(across(c(3,4), ~ round(., 2))) %>% select(c(3, 4))
+
+tb_resumen4 %>% mutate(tb_resumen5) %>% kable() %>% kable_styling(bootstrap_options = c("striped", "hover"), font_size = 8) %>% column_spec(1, bold = T,  background="#E0E0E0") %>% row_spec(0, bold = T, background="#E0E0E0")
+
+remove(var_laliga_antes, var_laliga_despues, tb_resumen4, tb_resumen5)
 ```
 
 
