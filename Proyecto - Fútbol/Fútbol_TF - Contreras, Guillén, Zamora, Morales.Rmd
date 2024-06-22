@@ -78,6 +78,8 @@ var_laliga_despues <- dbGetQuery(futbol,
 #ORDER BY Fecha;")
 ```
 
+![Escuela de Estadística y Ciencias Actuariales]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Logo de la EECA.png"){width='120px'}
+
 \pagebreak
 # Planteamiento del Problema
 
@@ -108,7 +110,7 @@ var_laliga_despues <- dbGetQuery(futbol,
 \pagebreak
 # Resumen Descriptivo de la BBDD
 
- A continuación, un cuadro con detalles de la estadística descriptiva para la evaluación de las variables numéricas de la base de datos en estudio.
+ A continuación, un cuadro con detalles de la estadística descriptiva para la evaluación de las variables cuantitativas de la base de datos en estudio.
 
 ```{r Resumen Descriptivo - Futbol, echo=FALSE}
 Partidos <- dbGetQuery(futbol, 
@@ -162,7 +164,7 @@ remove(tb_resumen1, Partidos, Divisiones)
 ath_plot <- v_ath %>% group_by(Lugar, Ganador) %>% summarise(Total= n())%>% 
 mutate(Porcentaje=round(Total/sum(Total)*100, 1), Proporcion=round(Total/sum(Total), 2))
 
-ggplot(ath_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Athletic Club de Bilbao") + theme_test() + ylim(c(0,160)) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(plot.title=element_text(hjust = 0.5, size=11)) +
+ggplot(ath_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Athletic Club de Bilbao") + theme_bw() + ylim(c(0,160)) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(plot.title=element_text(hjust = 0.5, size=11)) +
 geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
          vjust=-0.5, 
          color="black", 
@@ -189,7 +191,7 @@ geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
 man_plot <- v_man %>% group_by(Lugar, Ganador) %>% summarise(Total= n()) %>% 
 mutate(Porcentaje = round(Total/sum(Total)*100, 1), Proporcion=round(Total/sum(Total), 2))
 
-ggplot(man_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Manchester City") + theme_test() + ylim(c(0,220)) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
+ggplot(man_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Manchester City") + theme_bw() + ylim(c(0,220)) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
          vjust=-0.5, 
          color="black", 
          hjust=0.5,
@@ -231,35 +233,48 @@ remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
 
  Si, los equipos jugando de manera local suelen tener una ventaja de victoria delante su rival. Presentan una mayor proporción de ganar delante los otros dos posibles resultados (empatar o perder) en la muestra, y por regularidad estadística, si se toma una muestra de un espacio muestral, se va a comportar igual al espacio muestra.
  
- Se respalda esta información con el artículo que hizo Fatima Juan Belmonte, una reportera de prensa deportiva. Mediante hechos con respecto a un equipo español, demostró la importancia de la afición a su equipo, la fuente de motivación que son para el mismo e incluso su relevancia a la hora de nuevos fichajes.
+ Se respalda esta información con el artículo que hizo Fatima Juan Belmonte, una reportera de prensa deportiva.  
+ Mediante hechos con respecto a un equipo español, demostró la importancia de la afición a su equipo, la fuente de motivación que son para el mismo e incluso su relevancia a la hora de nuevos fichajes.
 
  También Carlos Cueva, profesor de Economía de la Universidad de Alicante, realizó un estudio sobre 41 ligas (antes y después de que comenzó la pandemia), y comprobó que la afición local genera una presión al equipo visitante, recopilando resultados, se notó que sin la afición de ninguna de las partes, los equipos visitantes aumenta su tasa de victoria hasta un 12% por temporada, pero nunca es mayor a la tasa de victorias local.
 
 \pagebreak
 # ¿Cuál fué el efecto reflejado en la cantidad de goles en las ligas tras la implementación del Video Assistant Referee (VAR)?
 
-# Dispersión de Goles - Bundesliga
+ Se procede a evaluar los goles anotados por 3 equipos de las ligas “Bundesliga” y “Laliga”, y comparar sus cambios una temporada antes y después la implementación oficial del VAR en sus respectivas divisiones de 1era.
+
+ Los equipos a evaluar de la Bundesliga en las temporadas 2016-17 y 2017-18 son: Eintracht Fráncfort, Bayer 04 Leverkusen, SC Friburgo.
+
+ Los equipos a evaluar de Laliga en las temporadas 2017-18 y 2018-19 son: FC Barcelona, Sevilla FC, Athletic Club.
+
+## Dispersión de Goles - Bundesliga
+
+ A continuación gráficos de caja y bigote que ayuda a visualizar la dispersión de los goles anotados por los equipos de la Bundesliga en estudio.
 
 ```{r Disp_bundes_boxplot, echo=FALSE}
-g1 <- ggplot(var_bundes_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
- labs(x="Equipos", y="Goles Anotados")
+g1 <- ggplot(var_bundes_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD"))+ labs(y="Goles Anotados") + scale_x_discrete("Equipos", labels = c("Eintracht", "Friburgo", "Leverkusen")) + theme_bw() + theme(legend.position = "none") 
 
-g2 <- ggplot(var_bundes_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
- labs(x="Equipos", y="Goles Anotados")
+g2 <- ggplot(var_bundes_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD"))+ labs(y="Goles Anotados") + scale_x_discrete("Equipos", labels = c("Eintracht", "Friburgo", "Leverkusen")) + theme_bw() + theme(legend.position = "none") 
 
 plot_grid(g1, g2, nrow=1)
+
+remove(var_bundes_antes, var_bundes_despues)
 ```
 
-# Dispersión de Goles - Laliga
+![Dispersión - Bundeliga]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Dispersión Bundesliga.jpg"){width=90%}
+
+## Dispersión de Goles - Laliga
+
+ A continuación gráficos de caja y bigote que ayuda a visualizar la dispersión de los goles anotados por los equipos de Laliga en estudio.
 
 ```{r Disp_laliga_boxplot, echo=FALSE}
-g1 <- ggplot(var_laliga_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
- labs(x="Equipos", y="Goles Anotados")
+g1 <- ggplot(var_laliga_antes, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD"))+ labs(x="Equipos", y="Goles Anotados") + theme_bw() + theme(legend.position = "none") 
 
-g2 <- ggplot(var_laliga_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(legend.position = "none") +
- labs(x="Equipos", y="Goles Anotados")
+g2 <- ggplot(var_laliga_despues, aes(x=Equipo, y=Goles_Pro, fill=Equipo)) + geom_jitter() + geom_boxplot() + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + labs(x="Equipos", y="Goles Anotados") + theme_bw() + theme(legend.position = "none")
 
 plot_grid(g1, g2, nrow=1)
+
+remove(var_laliga_antes, var_laliga_despues, g1, g2)
 ```
 
 
@@ -270,9 +285,9 @@ plot_grid(g1, g2, nrow=1)
 
 * Guerrero, S. (2021, febrero 18). ¿Cuál es la influencia de las hinchadas locales en el fútbol?. PRIMICIAS. Recuperado de https://www.primicias.ec/noticias/jugada/peso-influencia-hinchada-equipos-locales-estadios-futbol/
 
-* https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2016
+* CLUBES DE LA BUNDESLIGA 16/17. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2016
 
-* https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2017
+* CLUBES DE LA BUNDESLIGA 17/18. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2017
 
 * CAMBIOS DE ENTRENADORES DURANTE LA TEMPORADA. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
 
