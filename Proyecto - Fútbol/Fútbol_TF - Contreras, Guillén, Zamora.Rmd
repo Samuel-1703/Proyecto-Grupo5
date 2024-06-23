@@ -244,7 +244,7 @@ remove(v_ath, v_man, ath_plot, man_plot, g1, g2)
 \pagebreak
 # ¿Cuál fué el Efecto en la Consistencia Reflejada en la Cantidad de Goles en las Ligas Tras la Implementación del Video Assistant Referee (VAR)?
 
- Se procede a evaluar los goles anotados por 3 equipos de las ligas “Bundesliga” y “Laliga”, y comparar sus cambios una temporada antes y después la implementación oficial del VAR en sus respectivas divisiones de 1era.
+ Se procede a evaluar los goles anotados por 3 equipos de las ligas “Bundesliga” y “Laliga”, y comparar sus cambios una temporada antes y después la implementación oficial del VAR en sus respectivas divisiones de 1era. Un dato importante antes de continuar, es que se tomaron 2 equipo regulares de las ligas y 1 equipo por trayectoria muy bueno de cada liga.
 
  Los equipos a evaluar de la Bundesliga en las temporadas 2016-17 y 2017-18 son: Eintracht Fráncfort, Bayer 04 Leverkusen, SC Friburgo.
 
@@ -274,24 +274,15 @@ tb_resumen2 %>% mutate(tb_resumen3) %>% kable() %>% kable_styling(bootstrap_opti
 remove(var_bundes_antes, var_bundes_despues, tb_resumen2, tb_resumen3)
 ```
 
- Específicamente hablando de la dispersión de los datos, independientemente de su mejoría o desmejoría a nivel de goles. Notemos que en estos tres equipos hubieron 2 de 3 (Friburgo y el Leverkusen) que aumentaron su desviación estándar con respecto a su media.  
+ Específicamente hablando de la dispersión de los datos, independientemente de su mejoría o desmejoría a nivel de goles. Notemos que en estos equipos hubieron 2 de 3 (Friburgo y el Leverkusen) que aumentaron su desviación estándar con respecto a su media.  
 
-* En el caso de Friburgo en pocas palabras, su concentración de datos del 50% bajó dos unidades, pasó a encontrarse entre los dos más bajos (0 y 1 goles). En definitiva empeoró
+* En el caso de Friburgo en pocas palabras, su concentración de datos del 50% bajó dos unidades, pasó a encontrarse entre los dos más bajos (0 y 1 goles). En definitiva empeoró su capacidad goleadora.
 * En el caso de Leverkusen, su concentración de datos del 50% se mantuvo entre 1 y 2 goles, pero su mediana aumentó ligeramente. 
 
  Con respecto al otro equipo (Eintracht), apenas y hubo una muy ligera disminución de su desviación estándar con respecto a su media.
 
- Lo curioso de este caso es que 2 de los 3 equipos (Eintracht y el Leverkusen) evaluados en términos de goles han aumentado su rango de concentración de datos del 50% y su media, se dice que después de la inclusión del VAR les fue mejor anotando goles “válidos”.  
+ Lo curioso de este caso es que 2 de los 3 equipos (Eintracht y el Leverkusen) evaluados en términos de goles han aumentado (en goles) su rango de concentración de datos del 50% y su media, se dice que después de la inclusión del VAR les fue mejor anotando goles “válidos”.  
  Por otra parte el otro equipo (Friburgo) se vió afectado y disminuyó estas estadísticas, tras la inclusión del VAR le fue peor anotando goles “válidos”.
-
-
-### Tabla de Posiciones - Bundesliga
-
- Estos casos tan “inesperados” inicialmente, de mejoría en estos 2 equipos, se deben a que eran equipos que venían de tener una temporada 2016-17 regular, pues habían quedado por detrás del 10mo lugar de toda la liga. Para en la entrante superar al menos 3 posiciones, quedando por arriba del 9no lugar.
-
- En el caso del equipo en desmejoría, pasó de quedar en el 7mo lugar en la temporada 2016-17 a quedar de 15vo lugar en la 2017-18.
-
-![Tabla de Posición - Bundesliga]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Dispersión Bundesliga.jpg"){width=90%}
 
 ## Dispersión de Goles - Laliga
 
@@ -317,21 +308,20 @@ tb_resumen4 %>% mutate(tb_resumen5) %>% kable() %>% kable_styling(bootstrap_opti
 remove(var_laliga_antes, var_laliga_despues, tb_resumen4, tb_resumen5)
 ```
 
- Podemos notar que un equipo (Ath Bilbao) se mantuvo por completo igual, la realidad tras esto, es que apenas y cambió su orden univariante. Mientras que los otros 2 equipos (Barcelona y el Sevilla) aumentaron su rango de concentración de datos una unidad menos, y sus medias por separado, disminuyeron para uno y aumentó para otro. Acá es donde entra en juego la dispersión… 
+ Podemos notar que un equipo (Ath Bilbao) se mantuvo por completo igual, la realidad tras esto, es que apenas y cambió su orden univariante. Mientras que los otros 2 equipos (Barcelona y el Sevilla) aumentaron su rango de concentración de datos una unidad menos, y sus medias por separado, disminuyeron para uno y aumentó para otro. Acá es donde entra la dispersión nos da respuestas claras.
 
 Analizando la dispersión de los datos, independientemente de su mejoría o desmejoría a nivel de goles. Estos dos equipos (Barcelona y el Sevilla) sí tuvieron tras la inclusión del VAR un aumento de su desviación estándar.
 
-*En el Sevilla su concentración del 50% de los datos ahora se encuentra en entre los 2 valores más bajos, pero tiene una cantidad considerable de datos lejanos positivamente a esta concentración, por eso su media y desviación estándar aumentaron.
+* En el Sevilla su concentración del 50% de los datos ahora se encuentra en entre los 2 valores más bajos, pero tiene una cantidad considerable de datos lejanos positivamente a esta concentración, por eso su media y desviación estándar aumentaron.
 
-*El Barcelona por aumentar su rango de concentración de los datos del 50% una unidad hacia abajo, hizo que su media disminuyera, además, de por si su media era muy alta. Pero su desviación se ve superada porque tiene un dato atípico muy alto en 8 goles.
+* El Barcelona por aumentar su rango de concentración de los datos del 50% una unidad hacia abajo, hizo que su media disminuyera, además, de por si su media era muy alta. Pero su desviación se ve superada porque tiene un dato atípico muy alto en 8 goles.
 
-Se puede decir en un principio que estos tres equipos no se vieron tan afectados en la liga.
 
-### Tabla de Posiciones - Laliga
+## Conclusión Sobre la Consistencia con la Introducción del VAR
 
- Visualizando la tabla de posiciones de la temporada 2018-19, ya la temporada con el VAR incluido, nos encontramos que ciertamente 2 de los 3 equipos (Barcelona y el Sevilla) no tuvieron una diferencia significativa en las posiciones. Mientras que el otro equipo (Athletic de Bilbao) sorprendemente bajó 8 lugares en la tabla.
+ Casi todos los equipos vieron un aumento de su desviación típica con respecto a su media hablando de goles, es un fenómeno que viene de mano a que en la mayoría de los casos su rango del 50% central de los datos disminuyó una unidad. Esto nos dice que los equipos que solían anotar “muchos” goles en el marcador bajaron esa cantidad.
 
-![Tabla de Posición - Laliga]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Dispersión Laliga.jpg"){width=90%}
+Por otro lado equipos que no son de anotar muchos goles mantuvieron esa dispersión con respecto a su media goleadora, lo que nos dice que no se vieron afectados por ese lado, o en el mejor o peor de sus casos estabilizaron ese rango de concentración del 50% de goles que suelen anotar a uno más o menos.
 
 \pagebreak
 # Bibliografía
@@ -339,14 +329,6 @@ Se puede decir en un principio que estos tres equipos no se vieron tan afectados
 * Belmonte, F. (2017, noviembre 19). La importancia de la afición. VAVEL. Recuperado de https://www.vavel.com/es/futbol/2017/11/19/rayo-vallecano/849777-la-importancia-de-la-aficion.html
 
 * Guerrero, S. (2021, febrero 18). ¿Cuál es la influencia de las hinchadas locales en el fútbol?. PRIMICIAS. Recuperado de https://www.primicias.ec/noticias/jugada/peso-influencia-hinchada-equipos-locales-estadios-futbol/
-
-* CLUBES DE LA BUNDESLIGA 16/17. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2016
-
-* CLUBES DE LA BUNDESLIGA 17/18. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/bundesliga/startseite/wettbewerb/L1/plus/?saison_id=2017
-
-* CLUBES DE LA LALIGA 17/18. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/startseite/wettbewerb/ES1/plus/?saison_id=2017
-
-* CLUBES DE LA LALIGA 18/19. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/startseite/wettbewerb/ES1/plus/?saison_id=2018
 
 * CAMBIOS DE ENTRENADORES DURANTE LA TEMPORADA. (s.f.). transfer markt. Recuperado de https://www.transfermarkt.es/laliga/trainerwechsel/wettbewerb/ES1/plus/?saison_id=2018
 
