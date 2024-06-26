@@ -122,6 +122,200 @@ UNION
 			AND Team_Visitante = 'Ath Bilbao'
 );
 
+
+--//Datos de los descendidos en la 2014-15
+CREATE VIEW Descendidos_1era AS
+
+SELECT
+CASE
+        WHEN Team_Local IN ('Burnley','QPR', 'Hull') THEN Team_Local
+        ELSE Team_Visitante
+	    END AS Equipo,
+    SUM(CASE
+        WHEN Ganador = 'L' AND Team_Local IN ('Burnley', 'QPR', 'Hull') THEN 3
+		WHEN Ganador = 'E' AND Team_Local IN ('Burnley', ' QPR ', 'Hull') THEN 1
+        ELSE 0 
+    END) AS Puntos_local,
+    
+    SUM(CASE
+        WHEN Ganador = 'V' AND Team_Visitante IN ('Burnley', 'QPR', 'Hull') THEN 3
+        WHEN Ganador = 'E' AND Team_Visitante IN ('Burnley', 'QPR', 'Hull') THEN 1
+		ELSE 0
+    END) AS Puntos_visitante,
+	
+	 Temporada
+FROM Partidos
+WHERE Temporada = '2014-15'
+    AND (Team_Local IN ('Burnley',  'QPR', 'Hull')
+        OR Team_Visitante IN ('Burnley',  'QPR', 'Hull'))
+GROUP BY Equipo, Temporada
+ORDER BY Equipo;
+
+
+--//Datos de la segunda division para la 2015-16
+CREATE VIEW  Descendidos_2da AS
+
+SELECT
+CASE
+        WHEN Team_Local IN ('Burnley','QPR', 'Hull') THEN Team_Local
+        ELSE Team_Visitante
+	    END AS Equipo,
+    SUM(CASE
+        WHEN Ganador = 'L' AND Team_Local IN ('Burnley', 'QPR', 'Hull') THEN 3
+		WHEN Ganador = 'E' AND Team_Local IN ('Burnley', ' QPR ', 'Hull') THEN 1
+        ELSE 0 
+    END) AS Puntos_local,
+    
+    SUM(CASE
+        WHEN Ganador = 'V' AND Team_Visitante IN ('Burnley', 'QPR', 'Hull') THEN 3
+        WHEN Ganador = 'E' AND Team_Visitante IN ('Burnley', 'QPR', 'Hull') THEN 1
+		ELSE 0
+    END) AS Puntos_visitante,
+	
+	 Temporada
+FROM Partidos
+WHERE Temporada = '2015-16'
+    AND (Team_Local IN ('Burnley',  'QPR', 'Hull')
+        OR Team_Visitante IN ('Burnley',  'QPR', 'Hull'))
+GROUP BY Equipo, Temporada
+ORDER BY Equipo;
+
+--// Datos de la segunda division para la 2014-15
+CREATE VIEW Ascendidos_2da AS
+
+SELECT
+CASE
+        WHEN Team_Local IN ('Bournemouth', 'Norwich', 'Watford') THEN Team_Local
+        ELSE Team_Visitante
+	    END AS Equipo,
+    SUM(CASE
+        WHEN Ganador = 'L' AND Team_Local IN ('Bournemouth', 'Norwich', 'Watford') THEN 3
+		WHEN Ganador = 'E' AND Team_Local IN ('Bournemouth', 'Norwich', 'Watford') THEN 1
+        ELSE 0 
+    END) AS Puntos_local,
+    
+    SUM(CASE
+        WHEN Ganador = 'V' AND Team_Visitante IN ('Bournemouth', 'Norwich', 'Watford') THEN 3
+        WHEN Ganador = 'E' AND Team_Visitante IN ('Bournemouth', 'Norwich', 'Watford') THEN 1
+		ELSE 0
+    END) AS Puntos_visitante,
+	
+	 Temporada
+FROM Partidos
+WHERE Temporada = '2014-15'
+    AND (Team_Local IN ('Bournemouth', 'Norwich', 'Watford')
+        OR Team_Visitante IN ('Bournemouth', 'Norwich', 'Watford'))
+GROUP BY Equipo, Temporada
+ORDER BY Equipo;
+
+
+
+--// Datos de los ascendidos para la 2015-16
+CREATE VIEW Ascendidos_1era AS
+
+SELECT
+CASE
+        WHEN Team_Local IN ('Bournemouth', 'Norwich', 'Watford') THEN Team_Local
+        ELSE Team_Visitante
+	    END AS Equipo,
+    SUM(CASE
+        WHEN Ganador = 'L' AND Team_Local IN ('Bournemouth', 'Norwich', 'Watford') THEN 3
+		WHEN Ganador = 'E' AND Team_Local IN ('Bournemouth', 'Norwich', 'Watford') THEN 1
+        ELSE 0 
+    END) AS Puntos_local,
+    
+    SUM(CASE
+        WHEN Ganador = 'V' AND Team_Visitante IN ('Bournemouth', 'Norwich', 'Watford') THEN 3
+        WHEN Ganador = 'E' AND Team_Visitante IN ('Bournemouth', 'Norwich', 'Watford') THEN 1
+		ELSE 0
+    END) AS Puntos_visitante,
+	
+	 Temporada
+FROM Partidos
+WHERE Temporada = '2015-16'
+    AND (Team_Local IN ('Bournemouth', 'Norwich', 'Watford')
+        OR Team_Visitante IN ('Bournemouth', 'Norwich', 'Watford'))
+GROUP BY Equipo, Temporada
+ORDER BY Equipo;
+
+--// Datos de rivales en la segunda division para la 2015-16
+CREATE VIEW Rivales_2da AS
+SELECT
+CASE
+        WHEN Team_Local IN ('Brighton', 'Derby', 'Cardiff') THEN Team_Local
+        ELSE Team_Visitante
+	    END AS Equipo,
+    SUM(CASE
+        WHEN Ganador = 'L' AND Team_Local IN ('Brighton', 'Derby', 'Cardiff') THEN 3
+		WHEN Ganador = 'E' AND Team_Local IN ('Brighton', 'Derby', 'Cardiff') THEN 1
+        ELSE 0 
+    END) AS Puntos_local,
+    
+    SUM(CASE
+        WHEN Ganador = 'V' AND Team_Visitante IN ('Brighton', 'Derby', 'Cardiff') THEN 3
+        WHEN Ganador = 'E' AND Team_Visitante IN ('Brighton', 'Derby', 'Cardiff') THEN 1
+		ELSE 0
+    END) AS Puntos_visitante,
+	
+	 Temporada
+FROM Partidos
+WHERE Temporada = '2015-16'
+    AND (Team_Local IN ('Brighton', 'Derby', 'Cardiff')
+        OR Team_Visitante IN ('Brighton', 'Derby', 'Cardiff'))
+GROUP BY Equipo, Temporada
+ORDER BY Equipo;
+
+
+--// Datos de rivales en la primera division para la 2015-16
+CREATE VIEW Rivales_1era AS
+
+
+SELECT
+CASE
+        WHEN Team_Local IN ('Everton', 'Crystal Palace','Newcastle') THEN Team_Local
+        ELSE Team_Visitante
+	    END AS Equipo,
+    SUM(CASE
+        WHEN Ganador = 'L' AND Team_Local IN ('Everton', 'Crystal Palace','Newcastle') THEN 3
+		WHEN Ganador = 'E' AND Team_Local IN ('Everton', 'Crystal Palace','Newcastle') THEN 1
+        ELSE 0 
+    END) AS Puntos_local,
+    
+    SUM(CASE
+        WHEN Ganador = 'V' AND Team_Visitante IN ('Everton', 'Crystal Palace','Newcastle') THEN 3
+        WHEN Ganador = 'E' AND Team_Visitante IN ('Everton', 'Crystal Palace','Newcastle') THEN 1
+		ELSE 0
+    END) AS Puntos_visitante,
+	
+	 Temporada
+FROM Partidos
+WHERE Temporada = '2015-16'
+    AND (Team_Local IN ('Everton', 'Crystal Palace','Newcastle')
+        OR Team_Visitante IN ('Everton', 'Crystal Palace','Newcastle'))
+GROUP BY Equipo, Temporada
+ORDER BY Equipo;
+
+--// Concatenar vistas
+
+CREATE VIEW Primera_Segunda AS
+
+SELECT * FROM Descendidos_1era
+UNION ALL
+SELECT * FROM  Descendidos_2da
+UNION ALL
+SELECT * FROM  Ascendidos_2da
+UNION ALL
+SELECT * FROM Ascendidos_1era
+UNION ALL
+SELECT * FROM Rivales_2da
+UNION ALL
+SELECT * FROM Rivales_1era;
+
+
+
+SELECT * FROM Primera_Segunda;
+
+
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
 /* 1era Query: Indicar los nombres y países de las 5 divisiones que tienen más
