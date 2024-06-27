@@ -35,87 +35,29 @@ Divisiones <- dbGetQuery(futbol, "SELECT * FROM Divisiones")
 Partidos <- dbGetQuery(futbol, "SELECT * FROM Partidos")
 
 #Variables
-Primera_Segunda<-dbGetQuery(futbol,"SELECT * FROM Primera_Segunda") 
-total_puntos <- Primera_Segunda %>% mutate(total_puntos = Puntos_local + Puntos_visitante) %>% select(Equipo,Puntos_local,Puntos_visitante,total_puntos,Temporada)
-# Filtrar los datos para el equipo Burnley en cada temporada
-Burnley15 <- total_puntos %>%
-  filter(Equipo == "Burnley", Temporada == "2014-15")
+Primera_Segunda <- dbGetQuery(futbol,"SELECT * FROM Primera_Segunda") 
+Primera_Segunda <- Primera_Segunda %>% mutate(total_puntos = Puntos_local + Puntos_visitante) %>% select(Equipo, Puntos_local, Puntos_visitante, total_puntos, Temporada)
 
-Burnley16 <- total_puntos %>%
-  filter(Equipo == "Burnley", Temporada == "2015-16")
+    # Arreglando Datos (filtrado y % proporsión) datos - Graficos1 Obj.1
 
-# Porcentajes del burnley por temporada
-Burnley15 <- Burnley15 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100)
+Burnley_15 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+Burnley_16 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-Burnley16 <- Burnley16 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100)
+QPR_15 <- Primera_Segunda %>% filter(Equipo == "QPR", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+QPR_16 <- Primera_Segunda %>% filter(Equipo == "QPR", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-#Porcentajes del (QPR) por temporada
+Hull_15<- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+Hull_16 <- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-QPR15 <- total_puntos %>%
-  filter(Equipo == "QPR", Temporada == "2014-15")
+Bournemouth_15<- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Bournemouth_16 <- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-QPR16 <- total_puntos %>%
-  filter(Equipo == "QPR", Temporada == "2015-16")
+Norwich_15<- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Norwich_16 <- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-QPR15 <- QPR15 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100)
+Watford_15<- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Watford_16 <- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2015-16")  %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-QPR16 <- QPR16 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100)
-
-#Porcentajes del Hull por temporada
-Hull_15<- total_puntos %>%
-  filter(Equipo == "Hull", Temporada == "2014-15")
-
-Hull_16 <- total_puntos %>%
-  filter(Equipo == "Hull", Temporada == "2015-16")
-
-Hull_15 <- Hull_15 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100)
-
-Hull_16 <- Hull_16 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100)
-
-#Porcentajes del Bournemouth por temporada
-Bournemouth_15<- total_puntos %>%
-  filter(Equipo == "Bournemouth", Temporada == "2014-15")
-
-Bournemouth_16 <- total_puntos %>%
-  filter(Equipo == "Bournemouth", Temporada == "2015-16")
-
-Bournemouth_15 <- Bournemouth_15 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100)
-
-Bournemouth_16 <- Bournemouth_16 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100)
-
-#Porcentajes del Norwich por temporada
-Norwich_15<- total_puntos %>%
-  filter(Equipo == "Norwich", Temporada == "2014-15")
-
-Norwich_16 <- total_puntos %>%
-  filter(Equipo == "Norwich", Temporada == "2015-16")
-
-Norwich_15 <- Norwich_15 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100)
-
-Norwich_16 <- Norwich_16 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100)
-
-#Porcentajes del Watford por temporada
-Watford_15<- total_puntos %>%
-  filter(Equipo == "Watford", Temporada == "2014-15")
-
-Watford_16 <- total_puntos %>%
-  filter(Equipo == "Watford", Temporada == "2015-16")
-
-Watford_15 <- Watford_15 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100)
-
-Watford_16 <- Watford_16 %>%
-  mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100)
 
 #Rendimiento de los equipos en segunda
 Equipos <- c("Burnley", "QPR", "Hull", "Brighton", "Derby", "Cardiff")
@@ -251,91 +193,71 @@ remove(tb_resumen1, Partidos, Divisiones)
 
 \pagebreak
 
-```{r}
-Burnley_temporada1 <- 26.31
-Burnley_temporada2 <- 66.66
+# Objetivo 1
 
-#Calcular Porcentaje de puntos obtenidos por temporada (Burnley)
-pie(x = c(Burnley_temporada1, Burnley_temporada2),
+```{r Tortas_Ptos, echo=FALSE}
+par(mfcol = c(1, 2))
+
+pie(x = c(Burnley_15$Porcentaje_Por_Partido, Burnley_16$Porcentaje_Por_Partido),
+    labels = c("", ""),
+    col = c("green", "orange"),
+    main = "% Puntos Obtenidos (Burnley)")
+text(0.4, 0.4, paste0(Burnley_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.0, -0.4, paste0(Burnley_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
+
+
+pie(x = c(QPR_15$Porcentaje_Por_Partido, QPR_16$Porcentaje_Por_Partido),
+    labels = c("", ""),
+    col = c("green", "orange"),
+    main = "% Puntos Obtenidos (QPR)")
+text(0.3, 0.4, paste0(QPR_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.0, -0.4, paste0(QPR_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
+
+
+pie(x = c(Hull_15$Porcentaje_Por_Partido, Hull_16$Porcentaje_Por_Partido),
+    labels = c("", ""),
+    col = c("green", "orange"),
+    main = "% Puntos Obtenidos (Hull)")
+text(0.3, 0.4, paste0(Hull_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.0, -0.4, paste0(Hull_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
+
+
+pie(x = c(Bournemouth_15$Porcentaje_Por_Partido, Bournemouth_16$Porcentaje_Por_Partido),
     labels = c("", " "),
     col = c("green", "orange"),
-    main = "Porcentaje de Puntos obtenidos por temporada (Burnley)")
-text(0.4, 0.4, paste0(Burnley_temporada1, "%"), col = "black", cex = 0.9)
-text(0.0, -0.4, paste0(Burnley_temporada2, "%"), col = "black", cex = 0.9)
+    main = "% Puntos Obtenidos (Bournemouth)")
+text(-0.3, 0.2, paste0(Bournemouth_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.3, -0.4, paste0(Bournemouth_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
 
-legend("topright", legend = c("Temporada 2014-15", "Temporada 2015-16"), fill = c("green", "orange"))
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
 
 
-QPR_temporada1 <- 24.56
-
-QPR_temporada2 <- 39.13
-
-# Crear el gráfico de torta
-pie(x = c(QPR_temporada1, QPR_temporada2),
+pie(x = c(Norwich_15$Porcentaje_Por_Partido, Norwich_16$Porcentaje_Por_Partido),
     labels = c("", " "),
     col = c("green", "orange"),
-    main = "Porcentaje de Puntos obtenidos por temporada (QPR)")
-text(0.3, 0.4, paste0(QPR_temporada1, "%"), col = "black", cex = 0.9)
-text(0.0, -0.4, paste0(QPR_temporada2, "%"), col = "black", cex = 0.9)
+    main = "% Puntos Obtenidos (Norwich)")
+text(-0.3, 0.2, paste0(Norwich_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.4, -0.2, paste0(Norwich_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
 
-legend("topright", legend = c("Temporada 2014-15", "Temporada 2015-16"), fill = c("green", "orange"))
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
 
-Hull_temporada1 <-30.70
 
-Hull_temporada2 <- 58.69
-
-# Crear el gráfico de torta
-pie(x = c(Hull_temporada1, Hull_temporada2),
+pie(x = c(Watford_15$Porcentaje_Por_Partido, Watford_16$Porcentaje_Por_Partido),
     labels = c("", " "),
     col = c("green", "orange"),
-    main = "Porcentaje de Puntos obtenidos por temporada (Hull)")
-text(0.3, 0.4, paste0(Hull_temporada1, "%"), col = "black", cex = 0.9)
-text(0.0, -0.4, paste0(Hull_temporada2, "%"), col = "black", cex = 0.9)
+    main = "% Puntos Obtenidos (Watford)")
+text(0.0, 0.3, paste0(Watford_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.3, -0.4, paste0(Watford_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
 
-legend("topright", legend = c("Temporada 2014-15", "Temporada 2015-16"), fill = c("green", "orange"))
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
 
-Bournemouth_temporada1 <-65.94
-
-Bournemouth_temporada2 <- 36.84
-
-# Crear el gráfico de torta
-pie(x = c(Bournemouth_temporada1, Bournemouth_temporada2),
-    labels = c("", " "),
-    col = c("green", "orange"),
-    main = "Porcentaje de Puntos obtenidos por temporada (Bournemouth)")
-text(-0.3, 0.2, paste0(Bournemouth_temporada1, "%"), col = "black", cex = 0.9)
-text(0.3, -0.4, paste0(Bournemouth_temporada2, "%"), col = "black", cex = 0.9)
-
-legend("topright", legend = c("Temporada 2014-15", "Temporada 2015-16"), fill = c("green", "orange"))
-
-Norwich_temporada1 <-58.69
-
-Norwich_temporada2 <- 29.82
-
-# Crear el gráfico de torta
-pie(x = c(Norwich_temporada1, Norwich_temporada2),
-    labels = c("", " "),
-    col = c("green", "orange"),
-    main = "Porcentaje de Puntos obtenidos por temporada (Norwich)")
-text(-0.3, 0.2, paste0(Norwich_temporada1, "%"), col = "black", cex = 0.9)
-text(0.4, -0.2, paste0(Norwich_temporada2, "%"), col = "black", cex = 0.9)
-
-legend("topright", legend = c("Temporada 2014-15", "Temporada 2015-16"), fill = c("green", "orange"))
-
-Watford_temporada1 <-67.39
-
-Watford_temporada2 <- 39.47
-
-# Crear el gráfico de torta
-pie(x = c(Watford_temporada1, Watford_temporada2),
-    labels = c("", " "),
-    col = c("green", "orange"),
-    main = "Porcentaje de Puntos obtenidos por temporada (Watford)")
-text(0.0, 0.3, paste0(Watford_temporada1, "%"), col = "black", cex = 0.9)
-text(0.3, -0.4, paste0(Watford_temporada2, "%"), col = "black", cex = 0.9)
-
-legend("topright", legend = c("Temporada 2014-15", "Temporada 2015-16"), fill = c("green", "orange"))
-
+par(mfcol = c(1, 1))
 ```
 
 ```{r}
