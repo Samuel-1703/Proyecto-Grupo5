@@ -38,7 +38,7 @@ Partidos <- dbGetQuery(futbol, "SELECT * FROM Partidos")
 Primera_Segunda <- dbGetQuery(futbol,"SELECT * FROM Primera_Segunda") 
 Primera_Segunda <- Primera_Segunda %>% mutate(total_puntos = Puntos_local + Puntos_visitante) %>% select(Equipo, Puntos_local, Puntos_visitante, total_puntos, Temporada)
 
-    # Arreglando Datos (filtrado y % proporsión) datos - Graficos1 Obj.1
+    #Arreglando Datos (filtrado y % proporsión) datos - Graficos1 Obj.1
 
 Burnley_15 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 Burnley_16 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
@@ -76,7 +76,7 @@ v_ath <- dbGetQuery(futbol,
 				FROM Partidos 
 					WHERE Cod_Division='SP1' AND Team_Local='Ath Bilbao'
 				UNION
-			   SELECT * FROM Obj_1)
+			   SELECT * FROM Obj_21)
 	ORDER BY Ganador")
 v_ath <- v_ath %>% mutate(Lugar = case_when(Equipo == "Ath Bilbao" ~ "Local", Equipo == "Ath Bilbao." ~ "Visitante")) %>% mutate(Ganador = recode(Ganador, "E" = "Empate", "L" = "Local", "V" = "Visitante"))
 
@@ -85,24 +85,24 @@ v_man <- dbGetQuery(futbol,
 				FROM Partidos 
 					WHERE Cod_Division='E0' AND Team_Local='Man City'
 				UNION
-			   SELECT * FROM Obj_12)
+			   SELECT * FROM Obj_22)
 	ORDER BY Ganador")
 v_man <- v_man %>% mutate(Lugar = case_when(Equipo == "Man City" ~ "Local", Equipo == "Man City." ~ "Visitante")) %>% mutate(Ganador = recode(Ganador, "E" = "Empate", "L" = "Local", "V" = "Visitante"))
 
 var_bundes_antes <- dbGetQuery(futbol,
-"SELECT * FROM Obj_2
+"SELECT * FROM Obj_31
   WHERE Temporada = '2016-17'")
 var_bundes_antes <- var_bundes_antes %>% mutate(Equipo = recode(Equipo, "Ein Frankfurt" = "Eintracht", "Freiburg" = "Friburgo"))
 var_bundes_despues <- dbGetQuery(futbol,
-"SELECT * FROM Obj_2
+"SELECT * FROM Obj_31
   WHERE Temporada = '2017-18'")
 var_bundes_despues <- var_bundes_despues %>% mutate(Equipo = recode(Equipo, "Ein Frankfurt" = "Eintracht", "Freiburg" = "Friburgo"))
 
 var_laliga_antes <- dbGetQuery(futbol,
-"SELECT * FROM Obj_22
+"SELECT * FROM Obj_32
   WHERE Temporada = '2017-18'")
 var_laliga_despues <- dbGetQuery(futbol,
-"SELECT * FROM Obj_22
+"SELECT * FROM Obj_32
   WHERE Temporada = '2018-19'")
 
 # Para ultimo objetivo
