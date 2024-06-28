@@ -39,7 +39,7 @@ Partidos <- dbGetQuery(futbol, "SELECT * FROM Partidos")
 Primera_Segunda <- dbGetQuery(futbol,"SELECT * FROM Primera_Segunda") 
 Primera_Segunda <- Primera_Segunda %>% mutate(total_puntos = Puntos_local + Puntos_visitante) %>% select(Equipo, Puntos_local, Puntos_visitante, total_puntos, Temporada)
 
-    #Arreglando Datos (filtrado y % proporsión) datos - Graficos1 Obj.1
+    # Arreglando Datos (filtrado y % proporsión) datos - Graficos1 Obj.1
 
 Burnley_15 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 Burnley_16 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
@@ -47,17 +47,27 @@ Burnley_16 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2015
 QPR_15 <- Primera_Segunda %>% filter(Equipo == "QPR", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 QPR_16 <- Primera_Segunda %>% filter(Equipo == "QPR", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-Hull_15<- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+Hull_15 <- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 Hull_16 <- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-Bournemouth_15<- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Bournemouth_15 <- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 Bournemouth_16 <- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-Norwich_15<- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Norwich_15 <- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 Norwich_16 <- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-Watford_15<- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Watford_15 <- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 Watford_16 <- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2015-16")  %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+
+   #Añadiendo Columna de % de Proporsión
+
+Porcentaje_Por_Partido <- c(Burnley_15$Porcentaje_Por_Partido, Burnley_16$Porcentaje_Por_Partido, QPR_15$Porcentaje_Por_Partido, QPR_16$Porcentaje_Por_Partido, Hull_15$Porcentaje_Por_Partido, Hull_16$Porcentaje_Por_Partido, Bournemouth_15$Porcentaje_Por_Partido, Bournemouth_16$Porcentaje_Por_Partido, Norwich_15$Porcentaje_Por_Partido, Norwich_16$Porcentaje_Por_Partido, Watford_15$Porcentaje_Por_Partido, Watford_16$Porcentaje_Por_Partido)
+
+Primera_Segunda_2 <- Primera_Segunda[1:12, 1:5]
+
+Primera_Segunda_2 <- data_frame(Primera_Segunda_2, Porcentaje_Por_Partido)
+
+remove(Burnley_15, Burnley_16, QPR_15, QPR_16, Hull_15, Hull_16, Bournemouth_15, Bournemouth_16, Norwich_15, Norwich_16, Watford_15, Watford_16, Porcentaje_Por_Partido)
 
   #Rendimiento de los equipos en segunda + muestra - Graficos2 Obj.2
 
@@ -254,7 +264,7 @@ Pero, ¿esto implica que los descendidos dominaran la segunda division y los asc
 Retomamos a los equipos "Burnley","Hull" y el "QPR", en su temporada de segunda division y los comparamos con equipos que ya formaban parte de ella.
 
 ```{r, echo=FALSE}
-ggplot(Datos1, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Comparativa de puntos entre los equipos de Segunda division") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme_bw()
+ggplot(Datos1, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Comparativa de puntos entre los equipos de Segunda division") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
 
 remove(Datos1)
 ```
@@ -266,7 +276,7 @@ Retomamos a los equipos "Bournemouth","Norwich" y el "Watford",en su temporada d
 
 
 ```{r, echo=FALSE}
-ggplot(Datos2, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Comparativa de puntos entre los equipos de primera division") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme_bw()
+ggplot(Datos2, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Comparativa de puntos entre los equipos de primera division") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
 
 remove(Datos2, Primera_Segunda)
 ```
@@ -500,6 +510,12 @@ remove(p_celta_a, p_celta_d, g9, g10)
 ```
 
 ## Conclusión del Efecto de los Cambios de Entrenador y/o Jugadores del Equipo 
+
+\pagebreak
+
+#Conclusiones Finales
+
+En el presente Trabajo estadistico pudimos observar primeramente como nada esta definido en este deporte, los partidos hay que jugarlos y ganarlos; muchos factores pueden influir en el desenvolvimiento de un partido y como lo pudimos notar los equipos crecen al jugar en sus respectivas casas, equipos suben y bajan de divicion constantemente pero siempre se mantiene la competitividad. Los integrantes de un equipo y su direccion son parte fundamental del rendimiento, un equipo puede tener mas experiencia al competir que su rival pero lo unico que genera la victoria es llevarse el marcador.
 
 \pagebreak
 # Bibliografía
