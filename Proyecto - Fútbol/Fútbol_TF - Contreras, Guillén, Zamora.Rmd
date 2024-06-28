@@ -35,12 +35,48 @@ Divisiones <- dbGetQuery(futbol, "SELECT * FROM Divisiones")
 Partidos <- dbGetQuery(futbol, "SELECT * FROM Partidos")
 
 #Variables
+Primera_Segunda <- dbGetQuery(futbol,"SELECT * FROM Primera_Segunda") 
+Primera_Segunda <- Primera_Segunda %>% mutate(total_puntos = Puntos_local + Puntos_visitante) %>% select(Equipo, Puntos_local, Puntos_visitante, total_puntos, Temporada)
+
+    #Arreglando Datos (filtrado y % proporsión) datos - Graficos1 Obj.1
+
+Burnley_15 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+Burnley_16 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+
+QPR_15 <- Primera_Segunda %>% filter(Equipo == "QPR", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+QPR_16 <- Primera_Segunda %>% filter(Equipo == "QPR", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+
+Hull_15<- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+Hull_16 <- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+
+Bournemouth_15<- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Bournemouth_16 <- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+
+Norwich_15<- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Norwich_16 <- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+
+Watford_15<- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Watford_16 <- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2015-16")  %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+
+  #Rendimiento de los equipos en segunda + muestra - Graficos2 Obj.2
+
+muestra <- Primera_Segunda[c(4:6, 13:15), c("Equipo", "total_puntos")]
+VS <- c(rep(1, 3), rep(2, 3))
+Datos1 <- data.frame(muestra, VS)
+remove(muestra)
+
+  #Rendimiento de los equipos en primera + muestra - Graficos2 Obj.2
+muestra <- Primera_Segunda[c(10:12, 16:18), c("Equipo", "total_puntos")]
+Datos2 <- data.frame(muestra, VS)
+remove(VS, muestra)
+
+
 v_ath <- dbGetQuery(futbol,
 "SELECT * FROM (SELECT Id_Partidos, Team_Local AS Equipo, Ganador
 				FROM Partidos 
 					WHERE Cod_Division='SP1' AND Team_Local='Ath Bilbao'
 				UNION
-			   SELECT * FROM Obj_1)
+			   SELECT * FROM Obj_21)
 	ORDER BY Ganador")
 v_ath <- v_ath %>% mutate(Lugar = case_when(Equipo == "Ath Bilbao" ~ "Local", Equipo == "Ath Bilbao." ~ "Visitante")) %>% mutate(Ganador = recode(Ganador, "E" = "Empate", "L" = "Local", "V" = "Visitante"))
 
@@ -49,24 +85,24 @@ v_man <- dbGetQuery(futbol,
 				FROM Partidos 
 					WHERE Cod_Division='E0' AND Team_Local='Man City'
 				UNION
-			   SELECT * FROM Obj_12)
+			   SELECT * FROM Obj_22)
 	ORDER BY Ganador")
 v_man <- v_man %>% mutate(Lugar = case_when(Equipo == "Man City" ~ "Local", Equipo == "Man City." ~ "Visitante")) %>% mutate(Ganador = recode(Ganador, "E" = "Empate", "L" = "Local", "V" = "Visitante"))
 
 var_bundes_antes <- dbGetQuery(futbol,
-"SELECT * FROM Obj_2
+"SELECT * FROM Obj_31
   WHERE Temporada = '2016-17'")
 var_bundes_antes <- var_bundes_antes %>% mutate(Equipo = recode(Equipo, "Ein Frankfurt" = "Eintracht", "Freiburg" = "Friburgo"))
 var_bundes_despues <- dbGetQuery(futbol,
-"SELECT * FROM Obj_2
+"SELECT * FROM Obj_31
   WHERE Temporada = '2017-18'")
 var_bundes_despues <- var_bundes_despues %>% mutate(Equipo = recode(Equipo, "Ein Frankfurt" = "Eintracht", "Freiburg" = "Friburgo"))
 
 var_laliga_antes <- dbGetQuery(futbol,
-"SELECT * FROM Obj_22
+"SELECT * FROM Obj_32
   WHERE Temporada = '2017-18'")
 var_laliga_despues <- dbGetQuery(futbol,
-"SELECT * FROM Obj_22
+"SELECT * FROM Obj_32
   WHERE Temporada = '2018-19'")
 
 # Para ultimo objetivo
@@ -81,7 +117,6 @@ var_laliga_despues <- dbGetQuery(futbol,
 #			WHERE Team_Visitante='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19'))
 #ORDER BY Fecha;")
 ```
-
 
 \pagebreak
 # Planteamiento del Problema
@@ -101,9 +136,9 @@ var_laliga_despues <- dbGetQuery(futbol,
 
 ## Interrogantes/Objetivos
 
-1) ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
+1) 
 
-2) ¿Influyeron los partidos sin público durante la pandemia en la capacidad de anotar goles por parte de los equipos que jugaron de visitante?
+2) ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
 
 3) ¿Cuál fué el efecto en la consistencia reflejada en la cantidad de goles en las ligas tras la implementación del Video Assistant Referee (VAR)?
 
@@ -153,6 +188,103 @@ remove(tb_resumen1, Partidos, Divisiones)
 * Obtenemos un coeficiente de variación de 97,14%, lo que nos dice que los goles locales presentan una variabilidad alta.
 
 \pagebreak
+# Objetivo 1
+
+```{r Tortas_Ptos, echo=FALSE}
+  #agrupando tortas a 1×2
+par(mfcol = c(1, 2))
+
+  #gráfico de torta (Burnley)
+pie(x = c(Burnley_15$Porcentaje_Por_Partido, Burnley_16$Porcentaje_Por_Partido),
+    labels = c("", ""),
+    col = c("green", "orange"),
+    main = "% Puntos Obtenidos (Burnley)")
+text(0.4, 0.4, paste0(Burnley_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.0, -0.4, paste0(Burnley_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
+
+  #gráfico de torta (QPR)
+pie(x = c(QPR_15$Porcentaje_Por_Partido, QPR_16$Porcentaje_Por_Partido),
+    labels = c("", ""),
+    col = c("green", "orange"),
+    main = "% Puntos Obtenidos (QPR)")
+text(0.3, 0.4, paste0(QPR_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.0, -0.4, paste0(QPR_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
+
+  #gráfico de torta (Hull)
+pie(x = c(Hull_15$Porcentaje_Por_Partido, Hull_16$Porcentaje_Por_Partido),
+    labels = c("", ""),
+    col = c("green", "orange"),
+    main = "% Puntos Obtenidos (Hull)")
+text(0.3, 0.4, paste0(Hull_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.0, -0.4, paste0(Hull_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
+
+  #gráfico de torta (Bournemouth)
+pie(x = c(Bournemouth_15$Porcentaje_Por_Partido, Bournemouth_16$Porcentaje_Por_Partido),
+    labels = c("", " "),
+    col = c("green", "orange"),
+    main = "% Puntos Obtenidos (Bournemouth)")
+text(-0.3, 0.2, paste0(Bournemouth_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.3, -0.4, paste0(Bournemouth_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
+
+  #gráfico de torta (Norwich)
+pie(x = c(Norwich_15$Porcentaje_Por_Partido, Norwich_16$Porcentaje_Por_Partido),
+    labels = c("", " "),
+    col = c("green", "orange"),
+    main = "% Puntos Obtenidos (Norwich)")
+text(-0.3, 0.2, paste0(Norwich_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.4, -0.2, paste0(Norwich_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
+
+  #gráfico de torta (Watford)
+pie(x = c(Watford_15$Porcentaje_Por_Partido, Watford_16$Porcentaje_Por_Partido),
+    labels = c("", " "),
+    col = c("green", "orange"),
+    main = "% Puntos Obtenidos (Watford)")
+text(0.0, 0.3, paste0(Watford_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+text(0.3, -0.4, paste0(Watford_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+
+legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
+
+par(mfcol = c(1, 1))
+
+  #eliminando variables ya no deseadas
+remove(Bournemouth_15,Bournemouth_16, Burnley_15, Burnley_16, Hull_15, Hull_16, Norwich_15, Norwich_16, QPR_15, QPR_16, Watford_15, Watford_16)
+```
+
+*interpreta*
+
+## subtitulo
+
+```{r, echo=FALSE}
+ggplot(Datos1, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Título") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
+
+remove(Datos1)
+```
+
+*interpreta*
+
+```{r, echo=FALSE}
+ggplot(Datos2, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Título") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
+
+remove(Datos2, Primera_Segunda)
+```
+
+*interpreta*
+
+## Conlusión
+
+*conlusión*
+
+\pagebreak
 # ¿Los Equipos Tienden a Ganar más Cuando Juegan en sus Estadios Locales?
 
  Se procede a evaluar los resultados de todos los juegos de la BBDD donde "Athetic Club" y el "Manchester City" juegan de local y serán comparados con los resultados donde juegan de visitante, de esta manera se visualizará en que posición se han llevado más victorias.
@@ -167,7 +299,7 @@ remove(tb_resumen1, Partidos, Divisiones)
 ath_plot <- v_ath %>% group_by(Lugar, Ganador) %>% summarise(Total= n())%>% 
 mutate(Porcentaje=round(Total/sum(Total)*100, 1), Proporcion=round(Total/sum(Total), 2))
 
-ggplot(ath_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge",colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Athletic Club de Bilbao") + theme_bw() + ylim(c(0,160)) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(plot.title=element_text(hjust = 0.5, size=11)) +
+ggplot(ath_plot, aes(x=Lugar, y=Total, fill=Ganador)) + geom_col(position="dodge", colour="black") + labs(y="Frecuencia") + ggtitle("Registro de Partidos - Athletic Club de Bilbao") + theme_bw() + ylim(c(0,160)) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme(plot.title=element_text(hjust = 0.5, size=11)) +
 geom_text(aes(label=paste0(Total," ", "", "(", Porcentaje, "%", ")")),
          vjust=-0.5, 
          color="black", 
