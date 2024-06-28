@@ -21,6 +21,7 @@ library(tidyverse)
 library(cowplot)
 library(summarytools)
 library(kableExtra)
+library(waffle)
 
 #BBDD
 futbol <- dbConnect(SQLite(), dbname = "Fútbol Europeo BBDD.sqlite")
@@ -105,17 +106,59 @@ var_laliga_despues <- dbGetQuery(futbol,
 "SELECT * FROM Obj_32
   WHERE Temporada = '2018-19'")
 
-# Para ultimo objetivo
-#g_ath <- dbGetQuery(futbol, 
-#"SELECT Equipo, Goles_Pro, Goles_Contra, Rival, Temporada, Fecha
-#FROM (SELECT Id_Partidos, Team_Local AS Equipo, Goles_Local AS Goles_Pro, Goles_Visitante AS #Goles_Contra, Team_Visitante AS Rival, Temporada, Fecha
-#	  FROM Partidos
-#			WHERE Team_Local='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19')
-#	 UNION
-#	  SELECT Id_Partidos,Team_Visitante, Goles_Visitante, Goles_Local, Team_Local, Temporada, Fecha
-#	  FROM Partidos
-#			WHERE Team_Visitante='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19'))
-#ORDER BY Fecha;")
+  #Traer todos los partidos del Atletic de Bilbao (2017-18, 2018-19) - Graficos5 Obj.4
+
+partidos_ath <- dbGetQuery(futbol, 
+"SELECT Team_Local AS Equipo, Resultado, count(Resultado) As Total_Resultados, Temporada 
+FROM(SELECT Team_Local, Team_Visitante,
+CASE
+	WHEN Team_Local='Ath Bilbao' AND Ganador='L' THEN 'Victoria'
+	WHEN Team_Local='Ath Bilbao' AND Ganador='V' THEN 'Derrota'
+	ELSE 'Empate' 
+END AS Resultado, Temporada FROM Partidos
+	WHERE Team_Local='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19')
+
+UNION ALL
+
+SELECT Team_Visitante, Team_Local,
+CASE
+	WHEN Team_Visitante='Ath Bilbao' AND Ganador='L' THEN 'Victoria'
+	WHEN Team_Visitante='Ath Bilbao' AND Ganador='V' THEN 'Derrota'
+	ELSE 'Empate' 
+END AS Resultado, Temporada FROM Partidos
+	WHERE Team_Visitante='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19'))
+GROUP BY Resultado, Temporada
+ORDER BY Temporada")
+p_ath_a <- partidos_ath %>% filter(Temporada == "2017-18")
+p_ath_d <- partidos_ath %>% filter(Temporada == "2018-19")
+remove(partidos_ath)
+
+  #Traer todos los partidos del RC Celta (2017-18, 2018-19) - Graficos5 Obj.4
+
+partidos_celta <- dbGetQuery(futbol, 
+"SELECT Team_Local AS Equipo, Resultado, count(Resultado) As Total_Resultados, Temporada 
+FROM(SELECT Team_Local, Team_Visitante,
+CASE
+	WHEN Team_Local='Celta' AND Ganador='L' THEN 'Victoria'
+	WHEN Team_Local='Celta' AND Ganador='V' THEN 'Derrota'
+	ELSE 'Empate' 
+END AS Resultado, Temporada FROM Partidos
+	WHERE Team_Local='Celta' AND Temporada IN ('2017-18', '2018-19')
+
+UNION ALL
+
+SELECT Team_Visitante, Team_Local,
+CASE
+	WHEN Team_Visitante='Celta' AND Ganador='L' THEN 'Victoria'
+	WHEN Team_Visitante='Celta' AND Ganador='V' THEN 'Derrota'
+	ELSE 'Empate' 
+END AS Resultado, Temporada FROM Partidos
+	WHERE Team_Visitante='Celta' AND Temporada IN ('2017-18', '2018-19'))
+GROUP BY Resultado, Temporada
+ORDER BY Temporada")
+p_celta_a <- partidos_celta %>% filter(Temporada == "2017-18")
+p_celta_d <- partidos_celta %>% filter(Temporada == "2018-19")
+remove(partidos_celta)
 ```
 
 \pagebreak
@@ -143,7 +186,6 @@ var_laliga_despues <- dbGetQuery(futbol,
 3) ¿Cuál fué el efecto en la consistencia reflejada en la cantidad de goles en las ligas tras la implementación del Video Assistant Referee (VAR)?
 
 4) ¿Puede distinguir un cambio de entrenador y/o jugadores del equipo para un dominio del marcador en su mayoría de juegos?
-
 
 \pagebreak
 # Resumen Descriptivo de la BBDD
@@ -429,6 +471,7 @@ plot_grid(g5, g6, nrow=1)
 
 remove(g5, g6)
 ```
+\pagebreak
 
 ```{r Resumen_esta Dist_laliga, echo=FALSE}
 tb_resumen4 <- var_laliga_antes %>% group_by(Equipo) %>% descr(stats = c("min", "q1", "med", "q3", "max", "mean", "sd"), transpose = TRUE) %>% tb(order = 3) %>% rename(Min=min, Q1=q1, Med=med, Q3=q3, Max=max, "Media(antes)"=mean, "Desv-Std(antes)"=sd) %>% mutate(across(c(8,9), ~ round(., 2)))%>% select(c(2, 3, 4, 5, 6, 7, 8, 9))
@@ -454,6 +497,58 @@ Analizando la dispersión de los datos, independientemente de su mejoría o desm
  Casi todos los equipos vieron un aumento de su desviación típica con respecto a su media hablando de goles, es un fenómeno que viene de mano a que en la mayoría de los casos su rango del 50% central de los datos disminuyó una unidad. Esto nos dice que los equipos que solían anotar “muchos” goles en el marcador bajaron esa cantidad.
 
 Por otro lado equipos que no son de anotar muchos goles mantuvieron esa dispersión con respecto a su media goleadora, lo que nos dice que no se vieron afectados por ese lado, o en el mejor o peor de sus casos estabilizaron ese rango de concentración del 50% de goles que suelen anotar a uno más o menos.
+
+\pagebreak
+# ¿Puede Distinguir un Cambio de Entrenador y/o Jugadores del Equipo para un Dominio del Marcador en su Mayoría de Juegos?
+
+ En este caso se estudiarán todos los partidos de “Athletic Club de Bilbao” y “RC Celta de Vigo”, 2 equipos de Laliga en su primera división, en sus temporadas 2017-18 y 2018-19.  
+ Además, se realizó una investigación fuera de la BBDD en la página “Transfer Markt”,  sobre el cambio de plantilla y entrenador entre el tiempo de transición de estas 2 temporadas, y el algunos casos, poco después de empezar la 2018-19.
+
+Los resultados obtenidos fueron:
+
+![cambio de Entrenadores]("C:\\Users\\guill\\Documents\\Trabajos\\Fútbol_TF - Repo\\Proyecto - Fútbol\\Imagenes Extras\\Cambio de Entrenadores 2018-19.jpg"){width='460px'}
+ 
+Cambios de plantilla Athletic:  
+- Salió 1 portero, entraron 2. \
+- Salieron 6 defensas, entraron 3. \
+- Salieron 3 centros, entraron 2. \
+- Salieron 2 delanteros, entraron 4. \
+- El equipo pasó de 33 integrantes a 32. 
+
+Cambios de plantilla Celta:  
+- Salieron 2 porteros. \
+- Salieron 5 defensas, entraron 7. \
+- Salieron 3 centros, entraron 4. \
+- Salieron 5 delanteros, entraron 2. \
+- El equipo pasó de 32 integrantes a 30.
+
+ El punto de este apartado es ver cómo les fue a nivel de victorias, derrotas y empates en la ejecución de estas temporadas y hacer la comparación entre ellas, todo para ver si llevaron a un mejor dominio del macardor en  general.
+
+## Partidos del Athletic Club de Bilbao
+
+```{r Waflle Ath Bilbao_1, echo=FALSE}
+g7 <-  ggplot(p_ath_a, aes(fill=Resultado, values=Total_Resultados)) + geom_waffle(n_rows=7, size=0.3, colour = "white") + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + ggtitle("Ath Club de Bilbao (2017-18)")+ coord_equal() + theme_bw()
+
+g8 <-  ggplot(p_ath_d, aes(fill=Resultado, values=Total_Resultados)) + geom_waffle(n_rows=7, size=0.3, colour = "white") + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + ggtitle("Ath Club de Bilbao (2018-19)") + coord_equal() + theme_bw()
+
+plot_grid(g7, g8, nrow=1)
+
+remove(p_ath_a, p_ath_d, g7, g8)
+```
+
+## Partidos del RC Celta de Vigo
+
+```{r Waflle Ath Bilbao_2, echo=FALSE}
+g9 <-  ggplot(p_celta_a, aes(fill=Resultado, values=Total_Resultados)) + geom_waffle(n_rows=7, size=0.3, colour = "white") + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + ggtitle("RC Celta de Vigo (2017-18)")+ coord_equal() + theme_bw()
+
+g10 <-  ggplot(p_celta_d, aes(fill=Resultado, values=Total_Resultados)) + geom_waffle(n_rows=7, size=0.3, colour = "white") + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + ggtitle("RC Celta de Vigo (2018-19)") + coord_equal() + theme_bw()
+
+plot_grid(g9, g10, nrow=1)
+
+remove(p_celta_a, p_celta_d, g9, g10)
+```
+
+## Conclusión del Efecto de los Cambios de Entrenador y/o Jugadores del Equipo 
 
 \pagebreak
 # Bibliografía
