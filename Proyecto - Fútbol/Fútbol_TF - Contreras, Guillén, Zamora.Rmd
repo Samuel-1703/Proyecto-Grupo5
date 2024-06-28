@@ -105,17 +105,59 @@ var_laliga_despues <- dbGetQuery(futbol,
 "SELECT * FROM Obj_32
   WHERE Temporada = '2018-19'")
 
-# Para ultimo objetivo
-#g_ath <- dbGetQuery(futbol, 
-#"SELECT Equipo, Goles_Pro, Goles_Contra, Rival, Temporada, Fecha
-#FROM (SELECT Id_Partidos, Team_Local AS Equipo, Goles_Local AS Goles_Pro, Goles_Visitante AS #Goles_Contra, Team_Visitante AS Rival, Temporada, Fecha
-#	  FROM Partidos
-#			WHERE Team_Local='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19')
-#	 UNION
-#	  SELECT Id_Partidos,Team_Visitante, Goles_Visitante, Goles_Local, Team_Local, Temporada, Fecha
-#	  FROM Partidos
-#			WHERE Team_Visitante='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19'))
-#ORDER BY Fecha;")
+  #Traer todos los partidos del Atletic de Bilbao (2017-18, 2018-19) - Graficos5 Obj.4
+
+partidos_ath <- dbGetQuery(futbol, 
+"SELECT Team_Local AS Equipo, Resultado, count(Resultado) As Total_Resultados, Temporada 
+FROM(SELECT Team_Local, Team_Visitante,
+CASE
+	WHEN Team_Local='Ath Bilbao' AND Ganador='L' THEN 'Victoria'
+	WHEN Team_Local='Ath Bilbao' AND Ganador='V' THEN 'Derrota'
+	ELSE 'Empate' 
+END AS Resultado, Temporada FROM Partidos
+	WHERE Team_Local='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19')
+
+UNION ALL
+
+SELECT Team_Visitante, Team_Local,
+CASE
+	WHEN Team_Visitante='Ath Bilbao' AND Ganador='L' THEN 'Victoria'
+	WHEN Team_Visitante='Ath Bilbao' AND Ganador='V' THEN 'Derrota'
+	ELSE 'Empate' 
+END AS Resultado, Temporada FROM Partidos
+	WHERE Team_Visitante='Ath Bilbao' AND Temporada IN ('2017-18', '2018-19'))
+GROUP BY Resultado, Temporada
+ORDER BY Temporada")
+p_ath_a <- partidos_ath %>% filter(Temporada == "2017-18")
+p_ath_d <- partidos_ath %>% filter(Temporada == "2018-19")
+remove(partidos_ath)
+
+  #Traer todos los partidos del RC Celta (2017-18, 2018-19) - Graficos5 Obj.4
+
+partidos_celta <- dbGetQuery(futbol, 
+"SELECT Team_Local AS Equipo, Resultado, count(Resultado) As Total_Resultados, Temporada 
+FROM(SELECT Team_Local, Team_Visitante,
+CASE
+	WHEN Team_Local='Celta' AND Ganador='L' THEN 'Victoria'
+	WHEN Team_Local='Celta' AND Ganador='V' THEN 'Derrota'
+	ELSE 'Empate' 
+END AS Resultado, Temporada FROM Partidos
+	WHERE Team_Local='Celta' AND Temporada IN ('2017-18', '2018-19')
+
+UNION ALL
+
+SELECT Team_Visitante, Team_Local,
+CASE
+	WHEN Team_Visitante='Celta' AND Ganador='L' THEN 'Victoria'
+	WHEN Team_Visitante='Celta' AND Ganador='V' THEN 'Derrota'
+	ELSE 'Empate' 
+END AS Resultado, Temporada FROM Partidos
+	WHERE Team_Visitante='Celta' AND Temporada IN ('2017-18', '2018-19'))
+GROUP BY Resultado, Temporada
+ORDER BY Temporada")
+p_celta_a <- partidos_celta %>% filter(Temporada == "2017-18")
+p_celta_d <- partidos_celta %>% filter(Temporada == "2018-19")
+remove(partidos_celta)
 ```
 
 \pagebreak
@@ -456,6 +498,14 @@ Analizando la dispersión de los datos, independientemente de su mejoría o desm
 Por otro lado equipos que no son de anotar muchos goles mantuvieron esa dispersión con respecto a su media goleadora, lo que nos dice que no se vieron afectados por ese lado, o en el mejor o peor de sus casos estabilizaron ese rango de concentración del 50% de goles que suelen anotar a uno más o menos.
 
 \pagebreak
+
+# Objetivo 4
+
+```{r}
+
+```
+
+
 # Bibliografía
 
 * Belmonte, F. (2017, noviembre 19). La importancia de la afición. VAVEL. Recuperado de https://www.vavel.com/es/futbol/2017/11/19/rayo-vallecano/849777-la-importancia-de-la-aficion.html
