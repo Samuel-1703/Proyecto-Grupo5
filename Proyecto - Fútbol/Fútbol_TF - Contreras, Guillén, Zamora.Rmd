@@ -1,5 +1,5 @@
 ---
-title: "Demostración de Algunos Factores que Afectan al Rendimiento de los equipos de Fútbol"
+title: "Relacionar El Desempeño De Diversos Equipos De Futbol Profesionales En Distintos Ambientes A lo Largo De Las Temporadas Para Determinar Como Influye Esto En Su Desenvolvimiento Durante la Temporada"
 author: "Contreras Valeria, Guillén David, Zamora Samuel"
 date: "Junio del 2024"
 output: 
@@ -179,7 +179,7 @@ remove(partidos_celta)
 
 ## Interrogantes/Objetivos
 
-1) 
+1) ¿El ascenso o descenso de liga de un equipo sentencia su lugar en la tabla de posiciones?
 
 2) ¿Los equipos tienden a ganar más cuando juegan en sus estadios locales?
 
@@ -230,101 +230,52 @@ remove(tb_resumen1, Partidos, Divisiones)
 * Obtenemos un coeficiente de variación de 97,14%, lo que nos dice que los goles locales presentan una variabilidad alta.
 
 \pagebreak
-# Objetivo 1
+# ¿El ascenso o descenso de liga de un equipo sentencia su lugar en la tabla de posiciones?
 
-```{r Tortas_Ptos, echo=FALSE}
-  #agrupando tortas a 1×2
-par(mfcol = c(1, 2))
+Se procede a tomar una muestra conformada por equipos descendidos en la temporada 2014-15 de la Premier League de inglaterra, y los ascendidos en la temporada 2014-15 de la Champioship de inglaterra.  
 
-  #gráfico de torta (Burnley)
-pie(x = c(Burnley_15$Porcentaje_Por_Partido, Burnley_16$Porcentaje_Por_Partido),
-    labels = c("", ""),
-    col = c("green", "orange"),
-    main = "% Puntos Obtenidos (Burnley)")
-text(0.4, 0.4, paste0(Burnley_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-text(0.0, -0.4, paste0(Burnley_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
+* Los equipos descendidos fueron "Burnley","Hull" y el "QPR".  
+* Los equipos ascendidos fueron "Bournemouth",el "Norwich" y el "Watford".
 
-legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
-
-  #gráfico de torta (QPR)
-pie(x = c(QPR_15$Porcentaje_Por_Partido, QPR_16$Porcentaje_Por_Partido),
-    labels = c("", ""),
-    col = c("green", "orange"),
-    main = "% Puntos Obtenidos (QPR)")
-text(0.3, 0.4, paste0(QPR_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-text(0.0, -0.4, paste0(QPR_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-
-legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
-
-  #gráfico de torta (Hull)
-pie(x = c(Hull_15$Porcentaje_Por_Partido, Hull_16$Porcentaje_Por_Partido),
-    labels = c("", ""),
-    col = c("green", "orange"),
-    main = "% Puntos Obtenidos (Hull)")
-text(0.3, 0.4, paste0(Hull_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-text(0.0, -0.4, paste0(Hull_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-
-legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
-
-  #gráfico de torta (Bournemouth)
-pie(x = c(Bournemouth_15$Porcentaje_Por_Partido, Bournemouth_16$Porcentaje_Por_Partido),
-    labels = c("", " "),
-    col = c("green", "orange"),
-    main = "% Puntos Obtenidos (Bournemouth)")
-text(-0.3, 0.2, paste0(Bournemouth_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-text(0.3, -0.4, paste0(Bournemouth_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-
-legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
-
-  #gráfico de torta (Norwich)
-pie(x = c(Norwich_15$Porcentaje_Por_Partido, Norwich_16$Porcentaje_Por_Partido),
-    labels = c("", " "),
-    col = c("green", "orange"),
-    main = "% Puntos Obtenidos (Norwich)")
-text(-0.3, 0.2, paste0(Norwich_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-text(0.4, -0.2, paste0(Norwich_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-
-legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
-
-  #gráfico de torta (Watford)
-pie(x = c(Watford_15$Porcentaje_Por_Partido, Watford_16$Porcentaje_Por_Partido),
-    labels = c("", " "),
-    col = c("green", "orange"),
-    main = "% Puntos Obtenidos (Watford)")
-text(0.0, 0.3, paste0(Watford_15$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-text(0.3, -0.4, paste0(Watford_16$Porcentaje_Por_Partido, "%"), col = "black", cex = 0.9)
-
-legend("topright", legend = c("2014-15", "2015-16"), fill = c("green", "orange"))
-
-par(mfcol = c(1, 1))
-
-  #eliminando variables ya no deseadas
-remove(Bournemouth_15,Bournemouth_16, Burnley_15, Burnley_16, Hull_15, Hull_16, Norwich_15, Norwich_16, QPR_15, QPR_16, Watford_15, Watford_16)
-```
-
-*interpreta*
-
-## subtitulo
+## Porcentaje de puntos obtenidos por los equipos en cada una de sus temporadas
 
 ```{r, echo=FALSE}
-ggplot(Datos1, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Título") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
+Primera_Segunda_2 %>% select(c(1, 4, 6, 5)) %>% kable() %>% kable_styling(bootstrap_options = c("striped", "hover")) %>% column_spec(1, bold = T,  background="#E0E0E0") %>% row_spec(0, bold = T, background="#E0E0E0")
+
+remove(Primera_Segunda_2)
+```
+
+Es inevitable notar que en la temporada que cada equipo jugo en segunda division su eficacia en la obtencion de puntos fue muy superior en comparacion con su temporada en primera.
+
+Pero, ¿esto implica que los descendidos dominaran la segunda division y los ascendidos cayeran en puestos de descenso nuevamente?
+
+## Puntos acumulados de los equipos descendidos a lo largo de la temporada
+
+Retomamos a los equipos "Burnley","Hull" y el "QPR", en su temporada de segunda division y los comparamos con equipos que ya formaban parte de ella.
+
+```{r, echo=FALSE}
+ggplot(Datos1, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Comparativa de puntos entre los equipos de Segunda division") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme_bw()
 
 remove(Datos1)
 ```
+Como se puede apreciar, de los equipos descendidos, el Burnley  se llevo la delantera en puntos y por cierto se corono campeon en dicha temporada, su perseguidor inmediato fue el Brighton, diferenciandose solo por dos puntos y se trata de un equipo que ya formaba parte de dicha division.Como contraste, tenemos al QPR que a pesar de venir de jugar una temporada en la elite del futbol ingles apenas logro obtener 54 puntos de los 138 posibles, con este resultado no logro entrar si quiera en los 10 mejores del torneo.
 
-*interpreta*
+## Puntos acumulados por los equipos ascendidos a lo largo de la temporada
+
+Retomamos a los equipos "Bournemouth","Norwich" y el "Watford",en su temporada de primera division y los comparamos con equipos que ya formaban parte de ella.
+
 
 ```{r, echo=FALSE}
-ggplot(Datos2, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Título") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
+ggplot(Datos2, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Comparativa de puntos entre los equipos de primera division") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + scale_fill_manual(values=c("#CE93D8", "#7B1FA2", "#9C27BD")) + theme_bw()
 
 remove(Datos2, Primera_Segunda)
 ```
 
-*interpreta*
+Podemos apreciar que de los equipos ascendidos, el peor desempeño lo obtuvo el Norwich con 32 puntos de 114 posibles, cayendo nuevamente en puestos de descenso.El Watford por otra parte tuvo un desempeño interesante logrando obtener 45 puntos en la temporada y posicionandose por encima 6 equipos que ya formaban parte de dicha division, entre ellos el Newcastle, el Everton y el Crystal Palace. Para esta temporada el Watford logro posicionarse de doceavo en la Premier League.
 
-## Conlusión
+## Conlusión 
 
-*conlusión*
+Los resultados recien presentados nos indican el nivel de competitividad que poseen ambas ligas, por su puesto, la primera division es mucho mas complicada, pero eso no implica que equipos recien ascendidos hagan una muy mala temporada, o que los descendidos la tengan facil en la segundo division.
 
 \pagebreak
 # ¿Los Equipos Tienden a Ganar más Cuando Juegan en sus Estadios Locales?
