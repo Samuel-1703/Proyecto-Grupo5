@@ -499,9 +499,9 @@ Analizando la dispersión de los datos, independientemente de su mejoría o desm
 Por otro lado equipos que no son de anotar muchos goles mantuvieron esa dispersión con respecto a su media goleadora, lo que nos dice que no se vieron afectados por ese lado, o en el mejor o peor de sus casos estabilizaron ese rango de concentración del 50% de goles que suelen anotar a uno más o menos.
 
 \pagebreak
-# Objetivo 4
+# ¿Puede distinguir un cambio de entrenador y/o jugadores del equipo para un dominio del marcador en su mayoría de juegos?
 
-```{r Waflle Ath Bilbao, echo=FALSE}
+```{r Waflle Ath Bilbao_1, echo=FALSE}
 g7 <-  ggplot(p_ath_a, aes(fill=Resultado, values=Total_Resultados)) + geom_waffle(n_rows=7, size=0.3, colour = "white") + scale_fill_manual(values=c("#BA182A", "#FF8288", "#FFDBDD")) + ggtitle("Ath Club de Bilbao (2017-18)")+ coord_equal() + theme_bw()
 
 g8 <-  ggplot(p_ath_d, aes(fill=Resultado, values=Total_Resultados)) + geom_waffle(n_rows=7, size=0.3, colour = "white") + scale_fill_manual(values=c("#BA182A", "#FF8288", "#FFDBDD")) + ggtitle("Ath Club de Bilbao (2018-19)") + coord_equal() + theme_bw()
@@ -511,6 +511,15 @@ plot_grid(g7, g8, nrow=1)
 remove(p_ath_a, p_ath_d, g7, g8)
 ```
 
+```{r Waflle Ath Bilbao_2, echo=FALSE}
+g9 <-  ggplot(p_celta_a, aes(fill=Resultado, values=Total_Resultados)) + geom_waffle(n_rows=7, size=0.3, colour = "white") + scale_fill_manual(values=c("#BA182A", "#FF8288", "#FFDBDD")) + ggtitle("RC Celta de Vigo (2017-18)")+ coord_equal() + theme_bw()
+
+g10 <-  ggplot(p_celta_d, aes(fill=Resultado, values=Total_Resultados)) + geom_waffle(n_rows=7, size=0.3, colour = "white") + scale_fill_manual(values=c("#BA182A", "#FF8288", "#FFDBDD")) + ggtitle("RC Celta de Vigo (2018-19)") + coord_equal() + theme_bw()
+
+plot_grid(g9, g10, nrow=1)
+
+remove(p_celta_a, p_celta_d, g9, g10)
+```
 
 # Bibliografía
 
