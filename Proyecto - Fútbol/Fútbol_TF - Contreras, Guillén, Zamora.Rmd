@@ -187,7 +187,6 @@ remove(partidos_celta)
 
 4) ¿Puede distinguir un cambio de entrenador y/o jugadores del equipo para un dominio del marcador en su mayoría de juegos?
 
-
 \pagebreak
 # Resumen Descriptivo de la BBDD
 
@@ -472,6 +471,7 @@ plot_grid(g5, g6, nrow=1)
 
 remove(g5, g6)
 ```
+\pagebreak
 
 ```{r Resumen_esta Dist_laliga, echo=FALSE}
 tb_resumen4 <- var_laliga_antes %>% group_by(Equipo) %>% descr(stats = c("min", "q1", "med", "q3", "max", "mean", "sd"), transpose = TRUE) %>% tb(order = 3) %>% rename(Min=min, Q1=q1, Med=med, Q3=q3, Max=max, "Media(antes)"=mean, "Desv-Std(antes)"=sd) %>% mutate(across(c(8,9), ~ round(., 2)))%>% select(c(2, 3, 4, 5, 6, 7, 8, 9))
