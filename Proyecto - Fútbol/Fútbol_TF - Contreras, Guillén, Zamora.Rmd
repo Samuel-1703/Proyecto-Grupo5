@@ -46,17 +46,27 @@ Burnley_16 <- Primera_Segunda %>% filter(Equipo == "Burnley", Temporada == "2015
 QPR_15 <- Primera_Segunda %>% filter(Equipo == "QPR", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 QPR_16 <- Primera_Segunda %>% filter(Equipo == "QPR", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-Hull_15<- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+Hull_15 <- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 Hull_16 <- Primera_Segunda %>% filter(Equipo == "Hull", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-Bournemouth_15<- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Bournemouth_15 <- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 Bournemouth_16 <- Primera_Segunda %>% filter(Equipo == "Bournemouth", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-Norwich_15<- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Norwich_15 <- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 Norwich_16 <- Primera_Segunda %>% filter(Equipo == "Norwich", Temporada == "2015-16") %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
 
-Watford_15<- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
+Watford_15 <- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2014-15") %>% mutate(Porcentaje_Por_Partido = total_puntos / 138 * 100) %>% mutate(across(6, ~ round(., 2)))
 Watford_16 <- Primera_Segunda %>% filter(Equipo == "Watford", Temporada == "2015-16")  %>% mutate(Porcentaje_Por_Partido = total_puntos / 114 * 100) %>% mutate(across(6, ~ round(., 2)))
+
+   #Añadiendo Columna de % de Proporsión
+
+Porcentaje_Por_Partido <- c(Burnley_15$Porcentaje_Por_Partido, Burnley_16$Porcentaje_Por_Partido, QPR_15$Porcentaje_Por_Partido, QPR_16$Porcentaje_Por_Partido, Hull_15$Porcentaje_Por_Partido, Hull_16$Porcentaje_Por_Partido, Bournemouth_15$Porcentaje_Por_Partido, Bournemouth_16$Porcentaje_Por_Partido, Norwich_15$Porcentaje_Por_Partido, Norwich_16$Porcentaje_Por_Partido, Watford_15$Porcentaje_Por_Partido, Watford_16$Porcentaje_Por_Partido)
+
+Primera_Segunda_2 <- Primera_Segunda[1:12, 1:5]
+
+Primera_Segunda_2 <- data_frame(Primera_Segunda_2, Porcentaje_Por_Partido)
+
+remove(Burnley_15, Burnley_16, QPR_15, QPR_16, Hull_15, Hull_16, Bournemouth_15, Bournemouth_16, Norwich_15, Norwich_16, Watford_15, Watford_16, Porcentaje_Por_Partido)
 
   #Rendimiento de los equipos en segunda + muestra - Graficos2 Obj.2
 
@@ -121,13 +131,14 @@ var_laliga_despues <- dbGetQuery(futbol,
 \pagebreak
 # Planteamiento del Problema
 
-  El fútbol es un deporte a nivel profesional de alto rendimiento que se disputa entre dos conjuntos de 11 jugadores cada uno, esta disciplina conlleva contacto y cada integrante del juego ejerce un rol fundamental en el desempeño de sus respectivos equipos.  La misión de estos jugadores es disputar y trasladar un balón utilizando cualquier parte del cuerpo exceptuando brazos y manos con la finalidad de encajarlo dentro de la portería o arco del conjunto rival, acción que se denomina gol y hará ganar el partido al equipo que al cabo de noventa minutos logre hacer más anotaciones.
+  El fútbol es un deporte a nivel profesional de alto rendimiento que se disputa entre dos conjuntos de 11 jugadores cada uno, esta disciplina conlleva contacto y cada integrante del juego ejerce un rol fundamental en el desempeño de sus respectivos equipos. La misión de estos jugadores es disputar y trasladar un balón utilizando cualquier parte del cuerpo exceptuando brazos y manos con la finalidad de encajarlo dentro de la portería o arco del conjunto rival, acción que se denomina gol y hará ganar el partido al equipo que al cabo de noventa minutos logre hacer más anotaciones.
   
  Pueden existir partidos en los que un equipo sea tácticamente muy superior al rival, o que cuente con jugadores de mejor calidad. Al final del partido puede influir en que dominen en estadísticas como mayor posesión de balón, mayor precisión en los pases, más disparos al arco rival, mayor cantidad de tiros libres y todo lo que pueda favorecer a un equipo para demostrar que es superior, pero lo único que sentencia un partido son los goles, y ganar como en cualquier deporte es la única manera de avanzar en un torneo o competición.
  
  Sabiendo que marcar más goles que el rival o en otras palabras ganar, es determinante en cualquier competición, resulta interesante develar como se comportan diversos equipos, a nivel de resultados, al enfrentarse a situaciones que puedan involucrar un mejor o peor desenvolvimiento a lo largo de un partido o temporada.
  
-Tomando en consideración que se tiene en estudio una base de datos relacionada con algunas ligas del fútbol europeo, que contiene información de partidos recopilados desde el año 2006 hasta el año 2021, y se puede apreciar quién jugaba de local, quién jugaba de visitante, los goles anotados y el equipo ganador; el presente trabajo estadístico tendrá como finalidad  analizar dicho comportamiento, tomando como puntos de partida situaciones que puedan conllevar una ventaja o desventaja a la hora de marcar goles o ganar encuentros para los equipos que se estudiarán a continuación.
+Tomando en consideración que se tiene en estudio una base de datos relacionada con algunas ligas del fútbol europeo, que contiene información de partidos recopilados desde el año 2006 hasta el año 2021, y se puede apreciar quién jugaba de local, quién jugaba de visitante, los goles anotados y el equipo ganado.  
+El presente trabajo estadístico tendrá como finalidad analizar dicho comportamiento, tomando como puntos de partida situaciones que puedan conllevar una ventaja o desventaja a la hora de marcar goles o ganar encuentros para los equipos que se estudiarán a continuación.
 
 
 ## Interrogantes/Objetivos
@@ -186,18 +197,18 @@ remove(tb_resumen1, Partidos, Divisiones)
 \pagebreak
 # ¿El ascenso o descenso de liga de un equipo sentencia su lugar en la tabla de posiciones?
 
-Se procede a tomar una muestra conformada por equipos descendidos en la temporada 2014-15 de la Premier League de inglaterra, y los ascendidos en la temporada 2014-15 de la Champioship de inglaterra.
-Los equipos descendidos fueron "Burnley","Hull" y el "QPR".
-Los equipos ascendidos fueron "Bournemouth",el "Norwich" y el "Watford".
+Se procede a tomar una muestra conformada por equipos descendidos en la temporada 2014-15 de la Premier League de inglaterra, y los ascendidos en la temporada 2014-15 de la Champioship de inglaterra.  
 
-##Porcentaje de puntos obtenidos por los equipos en cada una de sus temporadas
+* Los equipos descendidos fueron "Burnley","Hull" y el "QPR".  
+* Los equipos ascendidos fueron "Bournemouth",el "Norwich" y el "Watford".
 
-```{r}
+## Porcentaje de puntos obtenidos por los equipos en cada una de sus temporadas
 
+```{r, echo=FALSE}
+Primera_Segunda_2 %>% select(c(1, 4, 6, 5)) %>% kable() %>% kable_styling(bootstrap_options = c("striped", "hover")) %>% column_spec(1, bold = T,  background="#E0E0E0") %>% row_spec(0, bold = T, background="#E0E0E0")
+
+remove(Primera_Segunda_2)
 ```
-
-
-  
 
 *interpreta*
 
