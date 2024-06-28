@@ -1,5 +1,5 @@
 ---
-title: "Demostración de Algunos Factores que Afectan al Rendimiento de los equipos de Fútbol"
+title: "Relacionar el desempeño de diversos equipos de futbol profesionales en distintos ambientes a lo largo de las temporadas para Determinar como influye esto en su desenvolvimiento durante la temporada"
 author: "Contreras Valeria, Guillén David, Zamora Samuel"
 date: "Junio del 2024"
 output: 
@@ -210,29 +210,37 @@ Primera_Segunda_2 %>% select(c(1, 4, 6, 5)) %>% kable() %>% kable_styling(bootst
 remove(Primera_Segunda_2)
 ```
 
-*interpreta*
+Es inevitable notar que en la temporada que cada equipo jugo en segunda division su eficacia en la obtencion de puntos fue muy superior en comparacion con su temporada en primera.
 
-## subtitulo
+Pero, ¿esto implica que los descendidos dominaran la segunda division y los ascendidos cayeran en puestos de descenso nuevamente?
+
+## Puntos acumulados de los equipos descendidos a lo largo de la temporada
+
+Retomamos a los equipos "Burnley","Hull" y el "QPR", en su temporada de segunda division y los comparamos con equipos que ya formaban parte de ella.
 
 ```{r, echo=FALSE}
-ggplot(Datos1, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Título") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
+ggplot(Datos1, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Comparativa de puntos entre los equipos de Segunda division") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
 
 remove(Datos1)
 ```
+Como se puede apreciar, de los equipos descendidos, el Burnley  se llevo la delantera en puntos y por cierto se corono campeon en dicha temporada, su perseguidor inmediato fue el Brighton, diferenciandose solo por dos puntos y se trata de un equipo que ya formaba parte de dicha division.Como contraste, tenemos al QPR que a pesar de venir de jugar una temporada en la elite del futbol ingles apenas logro obtener 54 puntos de los 138 posibles, con este resultado no logro entrar si quiera en los 10 mejores del torneo.
 
-*interpreta*
+## Puntos acumulados por los equipos ascendidos a lo largo de la temporada
+
+Retomamos a los equipos "Bournemouth","Norwich" y el "Watford",en su temporada de primera division y los comparamos con equipos que ya formaban parte de ella.
+
 
 ```{r, echo=FALSE}
-ggplot(Datos2, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Título") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
+ggplot(Datos2, aes(x=total_puntos, y=Equipo, fill=VS)) + geom_col(color="black") + labs(x = "Puntos Acumulados") + ggtitle("Comparativa de puntos entre los equipos de primera division") + theme(plot.title=element_text(hjust = 0.5, size=11)) + geom_text(aes(label=total_puntos), vjust=0, hjust=-0.3, size=3) + theme_bw()
 
 remove(Datos2, Primera_Segunda)
 ```
 
-*interpreta*
+Podemos apreciar que de los equipos ascendidos, el peor desempeño lo obtuvo el Norwich con 32 puntos de 114 posibles, cayendo nuevamente en puestos de descenso.El Watford por otra parte tuvo un desempeño interesante logrando obtener 45 puntos en la temporada y posicionandose por encima 6 equipos que ya formaban parte de dicha division, entre ellos el Newcastle, el Everton y el Crystal Palace. Para esta temporada el Watford logro posicionarse de doceavo en la Premier League.
 
 ## Conlusión
 
-*conlusión*
+Los resultados recien presentados nos indican el nivel de competitividad que poseen ambas ligas, por su puesto, la primera division es mucho mas complicada, pero eso no implica que equipos recien ascendidos hagan una muy mala temporada, o que los descendidos la tengan facil en la segundo division.
 
 \pagebreak
 # ¿Los Equipos Tienden a Ganar más Cuando Juegan en sus Estadios Locales?
@@ -404,6 +412,11 @@ Analizando la dispersión de los datos, independientemente de su mejoría o desm
  Casi todos los equipos vieron un aumento de su desviación típica con respecto a su media hablando de goles, es un fenómeno que viene de mano a que en la mayoría de los casos su rango del 50% central de los datos disminuyó una unidad. Esto nos dice que los equipos que solían anotar “muchos” goles en el marcador bajaron esa cantidad.
 
 Por otro lado equipos que no son de anotar muchos goles mantuvieron esa dispersión con respecto a su media goleadora, lo que nos dice que no se vieron afectados por ese lado, o en el mejor o peor de sus casos estabilizaron ese rango de concentración del 50% de goles que suelen anotar a uno más o menos.
+
+
+#Conclusiones finales
+
+En el presente Trabajo estadistico pudimos observar primeramente como nada esta definido en este deporte, los partidos hay que jugarlos y ganarlos; muchos factores pueden influir en el desenvolvimiento de un partido y como lo pudimos notar los equipos crecen al jugar en sus respectivas casas, equipos suben y bajan de divicion constantemente pero siempre se mantiene la competitividad. Los integrantes de un equipo y su direccion son parte fundamental del rendimiento, un equipo puede tener mas experiencia al competir que su rival pero lo unico que genera la victoria es llevarse el marcador.
 
 \pagebreak
 # Bibliografía
